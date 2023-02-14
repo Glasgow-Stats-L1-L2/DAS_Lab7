@@ -1,0 +1,26 @@
+{
+    "id": "57CBDBDA",
+    "path": "~/Documents/Work/GTA/DAS Labs/Week 7/CI and ModelParam_Webexercises.Rmd",
+    "project_path": null,
+    "type": "r_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1673865235171.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "1319,0",
+        "scrollLine": "30"
+    },
+    "folds": "42|18|82|1|\n83|28|176|0|\n177|39|199|0|\n200|19|324|0|\n325|115|446|0|\n447|39|547|0|\n548|42|711|0|\n712|31|864|0|\n865|41|897|0|\n898|31|916|0|\n917|52|1100|0|\n1101|42|1172|0|\n1173|51|1227|0|\n1228|48|1304|0|\n1305|37|1318|0|\n1319|46|1425|0|\n",
+    "lastKnownWriteTime": 1673866606,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1673866606395,
+    "read_only": false,
+    "read_only_alternatives": []
+}

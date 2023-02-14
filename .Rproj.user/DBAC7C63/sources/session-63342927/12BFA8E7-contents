@@ -1,0 +1,75 @@
+# Inference using Confidence Intervals {-}
+
+Having described several ways of calculating confidence intervals for model parameters, we are now in a position to interpret them for the purposes of statistical inference.
+
+## Simple Linear Regression {-}  
+
+$\hat y_i = \alpha + \beta x_i$
+
+Whether we have obtained a confidence interval for $\beta$  in a simple linear regression model via bootstrapping or theoretical results based on assumptions, the interpretation of the interval is the same.  As we have seen, 
+
+> A confidence interval gives a range of plausible values for a population parameter.
+
+We can therefore use the confidence interval for $\beta$ to state a range of plausible values and, just as usefully, what values are **not** plausible.  The most common values to compare the confidence interval of $\beta$ with is 0 (zero), since $\beta = 0$ says there is *no* (linear) relationship between the outcome variable ($y$) and the explanatory variable ($x$).  Therefore, if 0 lies within the confidence interval for $\beta$ then there is insufficient evidence of a linear relationship between $y$ and $x$.  However, if 0 does **not** lie within the confidence interval, then we conclude that $\beta$ is significantly different from zero and therefore that there is evidence of a linear relationship between $y$ and $x$.
+
+Let's use the confidence interval based on theoretical results for slope parameter in the SLR model applied to the teacher evaluation scores with `age` as the the single explanatory variable and the instructors' evaluation `score`s as the outcome variable. 
+
+```{r, echo=TRUE, eval=FALSE}
+get_regression_table(slr.model)
+```
+
+```{r, echo=FALSE}
+get_regression_table(slr.model) %>% 
+  knitr::kable(
+    digits = 3,
+    caption = "Estimate summaries from the SLR Model of `score` on `age`.", 
+    booktabs = TRUE
+  )
+```
+
+<br>
+
+```{r MCQ9, echo=FALSE}
+opts_Q9 <- c(answer = "Yes",
+             "No")
+```
+
+**Based on the fitted SLR model, is there evidence that there is a statistically significant linear relationship between the age of the professors and their teaching evaluation score?**
+`r longmcq(opts_Q9)`
+
+<br>
+
+## Multiple Regression {-}
+
+Consider, again, the fitted interaction model for `score` with `age` and `gender` as the two explanatory variables.
+
+```{r, eval=FALSE}
+int.model <- lm(score ~ age * gender, data = evals_multiple)
+
+get_regression_table(int.model)
+```
+
+```{r, echo=FALSE}
+int.model <- lm(score ~ age * gender, data = evals)
+get_regression_table(int.model) %>% 
+  knitr::kable(
+    digits = 3,
+    caption = "Model 2 (Regression table with interaction effect included)", 
+    booktabs = TRUE
+  )
+```
+
+<br>
+
+```{r MCQ10, echo=FALSE}
+opts_Q10 <- c(answer = "Yes",
+              "No")
+```
+
+**Based on the fitted interaction model, is there evidence that we should allow for different rates of change for male and female professors' teaching scores as they get older?**
+`r longmcq(opts_Q10)`
+
+<br>
+<br>
+
+

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Variable selection using confidence intervals | Data Analysis: Confidence Intervals and Model Parameter Selection</title>
+  <meta name="description" content="Variable selection using confidence intervals | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Variable selection using confidence intervals | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Variable selection using confidence intervals | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="inference-using-confidence-intervals.html"/>
+<link rel="next" href="model-comparisons-using-objective-criteria.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
+<ul>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
+<li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
+<li class="chapter" data-level="" data-path="a-final-word-on-model-selection.html"><a href="a-final-word-on-model-selection.html"><i class="fa fa-check"></i>A final word on model selection</a></li>
+<li class="chapter" data-level="" data-path="further-tasks-model-parameter-selection.html"><a href="further-tasks-model-parameter-selection.html"><i class="fa fa-check"></i>Further Tasks: Model Parameter Selection</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Confidence Intervals and Model Parameter Selection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="variable-selection-using-confidence-intervals" class="section level1 unnumbered hasAnchor">
+<h1>Variable selection using confidence intervals<a href="variable-selection-using-confidence-intervals.html#variable-selection-using-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>When there is more than one explanatory variable in a model, the parameter associated with each explanatory variable is interpreted as the change in the mean response based on a 1-unit change in the corresponding explanatory variable <strong>keeping all other variables held constant</strong>. Therefore, care must be taken when interpreting the confidence intervals of each parameter by acknowledging that each are plausible values <strong>conditional on all the other explanatory variables in the model</strong>.</p>
+<p>Because of the interdependence between the parameter estimates and the variables included in the model, choosing which variables to include in the model is a rather complex task. We will introduce some of the ideas in the simple case where we have 2 potential explanatory variables (<span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>) and use confidence intervals to decide which variables will be useful in predicting the outcome variable (<span class="math inline">\(y\)</span>).</p>
+<p>One approach is to consider a hierarchy of models:</p>
+<p><span class="math display">\[\hat y_i = \alpha + \beta_1 x_{1i} + \beta_2 x_{2i}\]</span><br />
+<span class="math display">\[\hat y_i = \alpha + \beta_1 x_{1i} \qquad \qquad \qquad \hat y_i = \alpha + \beta_2 x_{2i}\]</span><br />
+<span class="math display">\[\hat y_i = \alpha\]</span></p>
+<p>Within this structure we might take a top-down approach:</p>
+<ol style="list-style-type: decimal">
+<li>Fit the most general model, i.e. <span class="math inline">\(\hat y_i = \alpha + \beta_1 x_{1i} + \beta_2 x_{2i}\)</span> since we believe this is likely to provide a good description of the data.</li>
+<li>Construct confidence intervals for <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span>
+<ol style="list-style-type: lower-alpha">
+<li>If both intervals exclude 0 then retain the model with both <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.</li>
+<li>If the interval for <span class="math inline">\(\beta_1\)</span> contains 0 but that for <span class="math inline">\(\beta_2\)</span> does not, fit the model with <span class="math inline">\(x_2\)</span> alone.</li>
+<li>If the interval for <span class="math inline">\(\beta_2\)</span> contains 0 but that for <span class="math inline">\(\beta_1\)</span> does not, fit the model with <span class="math inline">\(x_1\)</span> alone.</li>
+<li>If both intervals include 0 it may still be that a model with one variable is useful. In this case the two models with the single variables should be fitted and intervals for <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> constructed and compared with 0.</li>
+</ol></li>
+</ol>
+<p>If we have only a few explanatory variables, then an extension of the strategy outlined above would be effective, i.e. start with the full model and simplify by removing terms until no further terms can be removed. When the number of explanatory variables is large the problem becomes more difficult. We will consider this more challenging situation in the next section.</p>
+<p>Recall that as well as <code>age</code> and <code>gender</code>, there is also a potential explanatory variable <code>bty_avg</code> in the <code>evals</code> data, i.e. the numerical variable of the average beauty score from a panel of six students' scores between 1 and 10. We can fit the multiple regression model with the two continuous explanatory variables <code>age</code> and <code>bty_avg</code> as follows:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="variable-selection-using-confidence-intervals.html#cb15-1" aria-hidden="true" tabindex="-1"></a>mlr.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">+</span> bty_avg, <span class="at">data =</span> evals)</span></code></pre></div>
+<table>
+<caption><span id="tab:unnamed-chunk-21">Table 6: </span>Esimate summaries from the MLR model with <code>age</code> and <code>bty_avg</code></caption>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std_error</th>
+<th align="right">statistic</th>
+<th align="right">p_value</th>
+<th align="right">lower_ci</th>
+<th align="right">upper_ci</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">intercept</td>
+<td align="right">4.055</td>
+<td align="right">0.170</td>
+<td align="right">23.870</td>
+<td align="right">0.000</td>
+<td align="right">3.721</td>
+<td align="right">4.389</td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="right">-0.003</td>
+<td align="right">0.003</td>
+<td align="right">-1.148</td>
+<td align="right">0.251</td>
+<td align="right">-0.008</td>
+<td align="right">0.002</td>
+</tr>
+<tr class="odd">
+<td align="left">bty_avg</td>
+<td align="right">0.061</td>
+<td align="right">0.017</td>
+<td align="right">3.548</td>
+<td align="right">0.000</td>
+<td align="right">0.027</td>
+<td align="right">0.094</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<strong>Following the process outlined above for choosing which variables to include in the model, what would be your next step after fitting this MLR model?</strong>
+<div id="radio_BHKRTOJINK" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value=""></input> <span>Fit a SLR model with <code>age</code></span></label><label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value="answer"></input> <span>Fit a SLR model with <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value=""></input> <span>Keep the MLR model with both <code>age</code> and <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value=""></input> <span>Drop both <code>age</code> and <code>bty_avg</code> from the model</span></label>
+</div>
+<p><br>
+<br></p>
+
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="inference-using-confidence-intervals.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="model-comparisons-using-objective-criteria.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

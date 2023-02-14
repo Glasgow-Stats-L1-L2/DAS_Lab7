@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Inference via sampling | Data Analysis: Confidence Intervals and Model Parameter Selection</title>
+  <meta name="description" content="Inference via sampling | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Inference via sampling | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Inference via sampling | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="further-tasks-model-parameter-selection.html"/>
+<link rel="next" href="inference-using-sample-statistics.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
+<ul>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
+<li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
+<li class="chapter" data-level="" data-path="a-final-word-on-model-selection.html"><a href="a-final-word-on-model-selection.html"><i class="fa fa-check"></i>A final word on model selection</a></li>
+<li class="chapter" data-level="" data-path="further-tasks-model-parameter-selection.html"><a href="further-tasks-model-parameter-selection.html"><i class="fa fa-check"></i>Further Tasks: Model Parameter Selection</a></li>
+<li class="chapter" data-level="" data-path="inference-via-sampling.html"><a href="inference-via-sampling.html"><i class="fa fa-check"></i>Inference via sampling</a></li>
+<li class="chapter" data-level="" data-path="inference-using-sample-statistics.html"><a href="inference-using-sample-statistics.html"><i class="fa fa-check"></i>Inference using sample statistics</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping.html"><a href="bootstrapping.html"><i class="fa fa-check"></i>Bootstrapping</a>
+<ul>
+<li class="chapter" data-level="" data-path="bootstrapping.html"><a href="bootstrapping.html#exploratory-data-analysis"><i class="fa fa-check"></i>Exploratory data analysis</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping.html"><a href="bootstrapping.html#the-bootstrapping-process"><i class="fa fa-check"></i>The Bootstrapping Process</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html"><i class="fa fa-check"></i>The <span><code>infer</code></span> package for statistical inference</a>
+<ul>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#specify"><i class="fa fa-check"></i><code>specify()</code></a></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#generate"><i class="fa fa-check"></i><code>generate()</code></a></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#calculate"><i class="fa fa-check"></i><code>calculate()</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#observed-statistic"><i class="fa fa-check"></i>Observed statistic</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#visualize"><i class="fa fa-check"></i><code>visualize()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="constructing-confidence-intervals.html"><a href="constructing-confidence-intervals.html"><i class="fa fa-check"></i>Constructing confidence intervals</a>
+<ul>
+<li class="chapter" data-level="" data-path="constructing-confidence-intervals.html"><a href="constructing-confidence-intervals.html#the-percentile-method"><i class="fa fa-check"></i>1. The percentile method</a></li>
+<li class="chapter" data-level="" data-path="constructing-confidence-intervals.html"><a href="constructing-confidence-intervals.html#the-standard-error-method"><i class="fa fa-check"></i>2. The standard error method</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="interpreting-the-confidence-interval.html"><a href="interpreting-the-confidence-interval.html"><i class="fa fa-check"></i>Interpreting the confidence interval</a></li>
+<li class="chapter" data-level="" data-path="comparing-two-proportions.html"><a href="comparing-two-proportions.html"><i class="fa fa-check"></i>Comparing two proportions</a>
+<ul>
+<li class="chapter" data-level="" data-path="comparing-two-proportions.html"><a href="comparing-two-proportions.html#compute-the-point-estimate"><i class="fa fa-check"></i>Compute the point estimate</a></li>
+<li class="chapter" data-level="" data-path="comparing-two-proportions.html"><a href="comparing-two-proportions.html#bootstrap-distribution"><i class="fa fa-check"></i>Bootstrap distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="further-tasks-confidence-intervals.html"><a href="further-tasks-confidence-intervals.html"><i class="fa fa-check"></i>Further Tasks: Confidence Intervals</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Confidence Intervals and Model Parameter Selection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="inference-via-sampling" class="section level1 unnumbered hasAnchor">
+<h1>Inference via sampling<a href="inference-via-sampling.html#inference-via-sampling" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The logic of inference via sampling is:</p>
+<ul>
+<li>If the sampling of a sample of size <span class="math inline">\(n\)</span> is done at <strong>random</strong>, then</li>
+<li>The sample is <strong>unbiased</strong> and <strong>representative</strong> of the population, thus</li>
+<li>Any result based on the sample can <strong>generalize</strong> to the population, thus</li>
+<li>The <strong>point estimate/sample statistic</strong> is an <em>estimate</em> of the unknown population parameter of interest</li>
+</ul>
+<p>and thus we have <strong>inferred</strong> something about the population based on our sample.</p>
+<p><br></p>
+<p><strong>Task</strong> To ground the above concepts, consider the following:</p>
+<p>In 2013 National Public Radio in the USA reported a poll of President Obama's approval rating among young Americans aged 18-29 in an article <a href="https://www.npr.org/sections/itsallpolitics/2013/12/04/248793753/poll-support-for-obama-among-young-americans-eroding">Poll: Support For Obama Among Young Americans Eroding</a>. Here is a quote from the article:</p>
+<blockquote>
+<p>After voting for him in large numbers in 2008 and 2012, young Americans are souring on President Obama.</p>
+<p>According to a new Harvard University Institute of Politics poll, just 41 percent of millennials (adults ages 18-29) approve of Obama's job performance, his lowest-ever standing among the group and an 11-point drop from April.</p>
+</blockquote>
+<p>Identify each of the following terms in this context:</p>
+<ul>
+<li>Population</li>
+<li>Population parameter</li>
+<li>Census</li>
+<li>Sampling</li>
+<li>Point estimates/sample statistics</li>
+<li>Representative sampling</li>
+<li>Generalizability</li>
+<li>Bias</li>
+<li>Random sampling</li>
+</ul>
+<div class="webex-solution">
+<button>
+Solution
+</button>
+<p><strong>Population</strong>: Who is the population of <span class="math inline">\(N\)</span> observations of interest?</p>
+<ul>
+<li>Obama poll: <span class="math inline">\(N = \text{?}\)</span> young Americans aged 18-29</li>
+</ul>
+<p><strong>Population parameter</strong>: What is the population parameter?</p>
+<ul>
+<li>Obama poll: The true population proportion <span class="math inline">\(p\)</span> of young Americans who approve of Obama's job performance.</li>
+</ul>
+<p><strong>Census</strong>: What would a census be in this case?</p>
+<ul>
+<li>Obama poll: Locating all <span class="math inline">\(N = \text{?}\)</span> young Americans (which is in the millions) and asking them if they approve of Obama's job performance. This would be quite expensive to do!</li>
+</ul>
+<p><strong>Sampling</strong>: How do you acquire the sample of size <span class="math inline">\(n\)</span> observations?</p>
+<ul>
+<li>Obama poll: One way would be to get phone records from a database and pick out <span class="math inline">\(n\)</span> phone numbers. In the case of the above poll, the sample was of size <span class="math inline">\(n=2089\)</span> young adults.</li>
+</ul>
+<p><strong>Point estimates/sample statistics</strong>: What is the summary statistic based on the sample of size <span class="math inline">\(n\)</span> that <em>estimates</em> the unknown population parameter?</p>
+<ul>
+<li>Key: The sample proportion red <span class="math inline">\(\widehat{p}\)</span> of young Americans in the sample of size <span class="math inline">\(n=2089\)</span> that approve of Obama's job performance. In this study's case, <span class="math inline">\(\widehat{p} = 0.41\)</span> which is the quoted 41% figure in the article.</li>
+</ul>
+<p><strong>Representative sampling</strong>: Is the sample procedure <em>representative</em>? In other words, to the resulting samples "look like" the population?</p>
+<ul>
+<li>Obama poll: Does our sample of <span class="math inline">\(n=2089\)</span> young Americans "look like" the population of all young Americans aged 18-29?</li>
+</ul>
+<p><strong>Generalizability</strong>: Are the samples <em>generalizable</em> to the greater population?</p>
+<ul>
+<li>Obama poll: Is <span class="math inline">\(\widehat{p} = 0.41\)</span> a "good guess" of <span class="math inline">\(p\)</span>? In other words, can we confidently say that 41% of <em>all</em> young Americans approve of Obama.</li>
+</ul>
+<p><strong>Bias</strong>: Is the sampling procedure unbiased? In other words, do all observations have an equal chance of being included in the sample?</p>
+<ul>
+<li>Obama poll: Did all young Americans have an equal chance at being represented in this poll? For example, if this was conducted using a database of only mobile phone numbers, would people without mobile phones be included? What about if this were an internet poll on a certain news website? Would non-readers of this this website be included?</li>
+</ul>
+<p><strong>Random sampling</strong>: Was the sampling random?</p>
+<ul>
+<li>Obama poll: Random sampling is a necessary assumption for all of the above to work. Most articles reporting on polls take this assumption as granted. In our Obama poll, you'd have to ask the group that conducted the poll: The Harvard University Institute of Politics.</li>
+</ul>
+</div>
+<p><br></p>
+<hr />
+<p>Following "the logic of inference via sampling" (above), in the Obama poll example:</p>
+<ul>
+<li>If we had a way of contacting a randomly chosen sample of 2089 young Americans and poll their approval of Obama, then</li>
+<li>These 2089 young Americans would "look like" the population of all young Americans, thus</li>
+<li>Any results based on this sample of 2089 young Americans can generalize to entire population of all young Americans, thus</li>
+<li>The reported sample approval rating of 41% of these 2089 young Americans is an <em>estimate</em> of the true approval rating amongst <em>all</em> young Americans.</li>
+</ul>
+<p>So this poll's <em>estimate</em> of Obama's approval rating amongst millennials was 41%. However is this the end of the story when understanding the results of a poll? If you read further in the article, it states:</p>
+<blockquote>
+<p>The poll's margin of error was plus or minus 2.1 percentage points.</p>
+</blockquote>
+<p>Note the term <em>margin of error</em>, which here is plus or minus 2.1 percentage points. This is saying that a typical range of errors for polls of this type is about <span class="math inline">\(\pm 2.1\%\)</span>, in words from about 2.1% too small to about 2.1% too big. These errors are caused by <em>sampling variation</em>, i.e. the fact that sample statistics vary from sample to sample.</p>
+<p>When speaking about estimating population parameters using sample statistics the term "error" can be misleading. Any variation from the true population parameter value is called "error". It doesn't mean a mistake has been made, its just acknowledging the fact that an estimate based on a sample is highly likely to be different from the true population parameter it is estimating. A reasonable range of "errors" to expect is called the "margin of error". We'll see in this week's lab that this is what's known as a <strong>95% confidence interval (CI)</strong> for the unknown approval rating (the population parameter in this poll). We'll study confidence intervals (CIs) using a new package for our data science and statistical toolbox: the <code>infer</code> package for statistical inference.</p>
+<p><br>
+<br></p>
+
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="further-tasks-model-parameter-selection.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="inference-using-sample-statistics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

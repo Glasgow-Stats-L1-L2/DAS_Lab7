@@ -1,0 +1,23 @@
+# Inference using sample statistics {-}
+
+The table below lists a variety of scenarios where sample statistics can be used to estimate population parameters. In all 6 scenarios the point estimate/sample statistic *estimates* the unknown population parameter. It does so by computing summary statistics based on a sample of size $n$. We'll cover the first four scenarios in the first half of this week's tutorial and  Scenarios 5 & 6 about the regression parameters in the second half.
+
+```{r inference-summary-table, echo=FALSE, message=FALSE, warning=FALSE}
+# Original at https://docs.google.com/spreadsheets/d/1QkOpnBGqOXGyJjwqx1T2O5G5D72wWGfWlPyufOgtkk4/edit#gid=0
+library(dplyr)
+library(readr)
+read_csv("data/ch9_summary_table - Sheet1.csv", na = "") %>% 
+  kable(
+    caption = "Table 1: Scenarios of sample statisitics for inference", 
+    booktabs = TRUE
+  )
+```
+
+In reality, we don't have access to the population parameter values (if we did, why would we need to estimate them?) we only have a single sample of data from a larger population. We'd like to be able to make some reasonable guesses about population parameters by using a single sample to calculate a range of plausible values for a population parameter. This range of plausible values is known as a **confidence interval** and is the focus of this lab. 
+
+There are [theoretical ways of defining confidence intervals](https://moodle.gla.ac.uk/pluginfile.php/1813455/mod_resource/content/1/Interval%20Estimates%20Summary.pdf) for these different scenarios when certain assumptions hold (such as you saw in [Statistical Inference](https://moodle.gla.ac.uk/course/view.php?id=4742) in Semester 1).  But we can also use a single sample to get some idea of how other samples might vary in terms of their sample statistics, i.e. to estimate the sampling distributions of sample statistics. One common way this is done is via a process known as **bootstrapping** which we turn to now.
+
+<br>
+<br>
+
+

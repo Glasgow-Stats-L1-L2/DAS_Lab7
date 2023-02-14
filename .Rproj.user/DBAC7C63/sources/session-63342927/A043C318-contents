@@ -1,0 +1,55 @@
+# Variable selection using confidence intervals {-}
+
+When there is more than one explanatory variable in a model, the parameter associated with each explanatory variable is interpreted as the change in the mean response based on a 1-unit change in the corresponding explanatory variable **keeping all other variables held constant**.  Therefore, care must be taken when interpreting the confidence intervals of each parameter by acknowledging that each are plausible values **conditional on all the other explanatory variables in the model**.
+
+Because of the interdependence between the parameter estimates and the variables included in the model, choosing which variables to include in the model is a rather complex task.  We will introduce some of the ideas in the simple case where we have 2 potential explanatory variables ($x_1$ and $x_2$)  and use confidence intervals to decide which variables will be useful in predicting the outcome variable ($y$).
+
+One approach is to consider a hierarchy of models:
+
+$$\hat y_i = \alpha + \beta_1 x_{1i} + \beta_2 x_{2i}$$   
+$$\hat y_i = \alpha + \beta_1 x_{1i} \qquad \qquad \qquad \hat y_i = \alpha + \beta_2 x_{2i}$$   
+$$\hat y_i = \alpha$$
+
+Within this structure we might take a top-down approach:
+
+1. Fit the most general model, i.e. $\hat y_i = \alpha + \beta_1 x_{1i} + \beta_2 x_{2i}$ since we believe this is likely to provide a good description of the data.
+2. Construct confidence intervals for $\beta_1$ and $\beta_2$
+    (a) If both intervals exclude 0 then retain the model with both $x_1$ and $x_2$.
+    (b) If the interval for $\beta_1$ contains 0 but that for $\beta_2$ does not, fit the model with $x_2$ alone.
+    (c) If the interval for $\beta_2$ contains 0 but that for $\beta_1$ does not, fit the model with $x_1$ alone.
+    (d) If both intervals include 0 it may still be that a model with one variable is useful. In this case the two models with the single variables should be fitted and intervals for $\beta_1$ and $\beta_2$ constructed and compared with 0.
+
+If we have only a few explanatory variables, then an extension of the strategy outlined above would be effective, i.e. start with the full model and simplify by removing terms until no further terms can be removed.  When the number of explanatory variables is large the problem becomes more difficult. We will consider this more challenging situation in the next section.
+
+Recall that as well as `age` and `gender`, there is also a potential explanatory variable `bty_avg` in the `evals` data, i.e. the numerical variable of the average beauty score from a panel of six students' scores between 1 and 10. We can fit the multiple regression model with the two continuous explanatory variables `age` and `bty_avg` as follows:
+
+```{r, eval=FALSE}
+mlr.model <- lm(score ~ age + bty_avg, data = evals)
+```
+
+```{r, echo=FALSE}
+mlr.model <- lm(score ~ age + bty_avg, data = evals)
+get_regression_table(mlr.model) %>% 
+  knitr::kable(
+    digits = 3,
+    caption = "Esimate summaries from the MLR model with `age` and `bty_avg`", 
+    booktabs = TRUE
+  )
+```
+
+<br>
+
+```{r MCQ11, echo=FALSE}
+opts_Q11 <- sample(c(answer = "Fit a SLR model with `bty_avg`",
+                     "Fit a SLR model with `age`",
+                     "Keep the MLR model with both `age` and `bty_avg`",
+                     "Drop both `age` and `bty_avg` from the model"))
+```
+
+**Following the process outlined above for choosing which variables to include in the model, what would be your next step after fitting this MLR model?**
+`r longmcq(opts_Q11)`
+
+<br>
+<br>
+
+

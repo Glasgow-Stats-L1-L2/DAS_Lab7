@@ -1,0 +1,94 @@
+# Inference via sampling {-}
+
+The logic of inference via sampling is:
+
+* If the sampling of a sample of size $n$ is done at **random**, then
+* The sample is **unbiased** and **representative** of the population, thus
+* Any result based on the sample can **generalize** to the population, thus
+* The **point estimate/sample statistic** is an *estimate* of the unknown population parameter of interest
+
+and thus we have **inferred** something about the population based on our sample.
+
+<br>
+
+**Task** To ground the above concepts, consider the following:
+
+In 2013 National Public Radio in the USA reported a poll of President Obama's approval rating among young Americans aged 18-29 in an article [Poll: Support For Obama Among Young Americans Eroding](https://www.npr.org/sections/itsallpolitics/2013/12/04/248793753/poll-support-for-obama-among-young-americans-eroding). Here is a quote from the article:
+
+> After voting for him in large numbers in 2008 and 2012, young Americans are souring on President Obama.
+> 
+> According to a new Harvard University Institute of Politics poll, just 41 percent of millennials (adults ages 18-29) approve of Obama's job performance, his lowest-ever standing among the group and an 11-point drop from April.
+
+Identify each of the following terms in this context:
+
+* Population
+* Population parameter
+* Census
+* Sampling
+* Point estimates/sample statistics
+* Representative sampling
+* Generalizability
+* Bias
+* Random sampling
+
+`r hide("Solution")`
+**Population**: Who is the population of $N$ observations of interest?
+
+* Obama poll: $N = \text{?}$ young Americans aged 18-29
+
+**Population parameter**: What is the population parameter? 
+
+* Obama poll: The true population proportion $p$ of young Americans who approve of Obama's job performance.
+
+**Census**: What would a census be in this case? 
+
+* Obama poll: Locating all $N = \text{?}$ young Americans (which is in the millions) and asking them if they approve of Obama's job performance. This would be quite expensive to do!
+
+**Sampling**: How do you acquire the sample of size $n$ observations?
+
+* Obama poll: One way would be to get phone records from a database and pick out $n$ phone numbers. In the case of the above poll, the sample was of size $n=2089$ young adults. 
+
+**Point estimates/sample statistics**: What is the summary statistic based on the sample of size $n$ that *estimates* the unknown population parameter?
+
+* Key: The sample proportion red $\widehat{p}$ of young Americans in the sample of size $n=2089$ that approve of Obama's job performance. In this study's case, $\widehat{p} = 0.41$ which is the quoted 41% figure in the article.
+
+**Representative sampling**: Is the sample procedure *representative*? In other words, to the resulting samples "look like" the population? 
+
+* Obama poll: Does our sample of $n=2089$ young Americans "look like" the population of all young Americans aged 18-29?
+
+**Generalizability**: Are the samples *generalizable* to the greater population?
+
+* Obama poll: Is $\widehat{p} = 0.41$ a "good guess" of $p$? In other words, can we confidently say that 41% of *all* young Americans approve of Obama.
+
+**Bias**: Is the sampling procedure unbiased? In other words, do all observations have an equal chance of being included in the sample?
+
+* Obama poll: Did all young Americans have an equal chance at being represented in this poll? For example, if this was conducted using a database of only mobile phone numbers, would people without mobile phones be included? What about if this were an internet poll on a certain news website? Would non-readers of this this website be included?
+    
+**Random sampling**: Was the sampling random?
+
+* Obama poll: Random sampling is a necessary assumption for all of the above to work.  Most articles reporting on polls take this assumption as granted. In our Obama poll, you'd have to ask the group that conducted the poll: The Harvard University Institute of Politics.
+`r unhide()`
+
+<br>
+
+***
+
+Following "the logic of inference via sampling" (above), in the Obama poll example:
+
+* If we had a way of contacting a randomly chosen sample of 2089 young Americans and poll their approval of Obama, then
+* These 2089 young Americans would "look like" the population of all young Americans, thus
+* Any results based on this sample of 2089 young Americans can generalize to entire population of all young Americans, thus
+* The reported sample approval rating of 41% of these 2089 young Americans is an *estimate* of the true approval rating amongst *all* young Americans.
+
+So this poll's *estimate* of Obama's approval rating amongst millennials was 41%. However is this the end of the story when understanding the results of a poll?  If you read further in the article, it states:
+
+> The poll's margin of error was plus or minus 2.1 percentage points.
+
+Note the term *margin of error*, which here is plus or minus 2.1 percentage points.  This is saying that a typical range of errors for polls of this type is about $\pm 2.1\%$, in words from about 2.1% too small to about 2.1% too big. These errors are caused by *sampling variation*, i.e. the fact that sample statistics vary from sample to sample.
+
+When speaking about estimating population parameters using sample statistics the term "error" can be misleading.  Any variation from the true population parameter value is called "error".  It doesn't mean a mistake has been made, its just acknowledging the fact that an estimate based on a sample is highly likely to be different from the true population parameter it is estimating. A reasonable range of "errors" to expect is called the "margin of error". We'll see in this week's lab that this is what's known as a **95% confidence interval (CI)** for the unknown approval rating (the population parameter in this poll). We'll study confidence intervals (CIs) using a new package for our data science and statistical toolbox: the `infer` package for statistical inference.
+
+<br>
+<br>
+
+

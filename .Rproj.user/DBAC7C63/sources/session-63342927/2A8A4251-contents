@@ -1,0 +1,14 @@
+# A final word on model selection {-}
+
+A great deal of care should be taken in selecting predictors for a model because the values of the regression coefficients depend upon the variables in the model. Therefore, the predictors included and the order in which they are entered into the model can have a great impact. In an ideal world, predictors should be selected based on past research and new predictors should be added to existing models based on the theoretical importance of the variables.  One thing not to do is select hundreds of random predictors, bung them all into a regression analysis and hope for the best. 
+
+But in practice there are automatic strategies, such as *Stepwise* and *Best Subsets* regression, based on systematically searching through the entire list of variables not in the current model to make decisions on whether each should be included. These strategies need to be handled with care, and a proper discussion of them is beyond this course. Our best strategy is a mixture of judgement on what variables should be included as potential explanatory variables, together with parameter interval estimation and a comparison of objective measures for assessing different models. The judgement should be made in the light of advice from the problem context.
+
+**Golden rule for modelling**
+
+> The key to modelling data is to only use the objective measures as a rough guide. In the end the choice of model will involve your own judgement. You have to be able to defend why you chose a particular model.
+
+<br>
+<br>
+
+

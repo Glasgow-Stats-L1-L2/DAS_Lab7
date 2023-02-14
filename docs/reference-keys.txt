@@ -1,0 +1,10 @@
+tab:inference-summary-table-repeat
+fig:modelslr
+fig:model1
+fig:model2
+tab:unnamed-chunk-11
+tab:unnamed-chunk-13
+tab:unnamed-chunk-16
+tab:unnamed-chunk-18
+tab:unnamed-chunk-21
+tab:unnamed-chunk-24

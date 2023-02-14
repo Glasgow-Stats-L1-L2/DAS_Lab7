@@ -1,0 +1,164 @@
+# Interpreting the confidence interval {-}
+
+Recall that the confidence intervals we've produced are based on bootstrapping using the single sample `orig_pennies_sample`.  We have been claiming that this is a sample from all the pennies in circulation in 2011, but we can now reveal that it is actually a sample from a larger number of pennies stored as `pennies` in the `moderndive` package. The `pennies` data frame contains 800 rows of data and two columns pertaining to the same variables as `orig_pennies_sample`.  Its important to stress that this is *very artificial*, i.e. we would usually never have access to all the information about the larger group from which our sample is taken, but we have set up the data this way here to illustrate the properties of confidence intervals for the purpose of interpreting confidence intervals.
+
+So let's assume that `pennies` is our population of interest (i.e. a population with $N=800$ units). We can therefore calculate the population mean age of pennies in 2011, denoted by the Greek letter $\mu$, by calculating the mean of `age_in_2011` for the `pennies` data frame.
+
+```{r}
+pennies_mu <- pennies %>% 
+  summarize(overall_mean = mean(age_in_2011)) %>% 
+  pull()  #Use this function to extract the single value from the data frame
+pennies_mu
+```
+
+As we saw at the end of the previous section, one range of plausible values for the population mean age of pennies in 2011 ($\mu$), is $[`r round(percentile_ci[["lower_ci"]], 2)`, `r round(percentile_ci[["upper_ci"]], 2)`]$. Note that the value $\mu = `r round(pennies_mu,2)`$ (i.e. the mean of `pennies` calculated above) **does** fall in this confidence interval. So in this instance, the confidence interval based on `orig_pennies_sample` was a good estimate of $\mu$.
+
+If we had a different sample of size 40 and constructed a confidence interval using the same method, would we be guaranteed that it contained the population parameter value $\mu$ as well? Let's try it out:
+
+```{r}
+pennies_sample2 <- pennies %>% 
+  sample_n(size = 40)
+```
+
+Note the use of the `sample_n()` function in the `dplyr` package here. This does the same thing as `rep_sample_n(reps = 1)` but omits the extra `replicate` column.
+
+We next create an `infer` pipeline to generate a percentile-based 95% confidence interval for $\mu$:
+
+```{r}
+percentile_ci2 <- pennies_sample2 %>% 
+  specify(formula = age_in_2011 ~ NULL) %>% 
+  generate(reps = 1000) %>% 
+  calculate(stat = "mean") %>% 
+  get_ci()
+percentile_ci2
+```
+
+This new confidence interval also contains the value of $\mu$. Let's further investigate by repeating this process 100 times to get 100 different confidence intervals derived from 100 different samples of `pennies`. Each sample will have size of 40 just as the original sample. We will plot each of these confidence intervals as horizontal lines. We will also show a line corresponding to the known population value of `r pennies_mu` years.
+
+```{r echo=FALSE}
+set.seed(201)
+
+pennies_samples <- pennies %>% 
+  rep_sample_n(size = 40, reps = 100, replace = FALSE)
+
+nested_pennies <- pennies_samples %>% 
+  group_by(replicate) %>% 
+  tidyr::nest()
+
+infer_pipeline <- function(entry){
+  entry %>% 
+    specify(formula = age_in_2011 ~ NULL) %>% 
+    generate(reps = 1000) %>% 
+    calculate(stat = "mean") %>% 
+    get_ci()
+}
+
+if(!file.exists("rds/pennies_cis.rds")){
+  pennies_cis <- nested_pennies %>% 
+    mutate(percentile_ci = purrr::map(data, infer_pipeline)) %>% 
+    mutate(point_estimate = purrr::map_dbl(data, ~mean(.x$age_in_2011)))
+  saveRDS(object = pennies_cis, "rds/pennies_cis.rds")
+} else {
+  pennies_cis <- readRDS("rds/pennies_cis.rds")
+}
+
+perc_cis <- pennies_cis %>% 
+  tidyr::unnest(percentile_ci) %>% 
+  rename(lower = `2.5%`, upper = `97.5%`) %>% 
+  mutate(captured = lower <= pennies_mu & pennies_mu <= upper)
+
+ggplot(perc_cis) +
+  geom_point(aes(x = point_estimate, y = replicate, color = captured)) +
+  geom_segment(aes(y = replicate, yend = replicate, x = lower, xend = upper, 
+                   color = captured)) +
+  labs(
+    x = expression("Age in 2011 (Years)"),
+    y = "Replicate ID",
+    title = expression(paste("95% percentile-based confidence intervals for ", 
+                             mu, sep = ""))
+  ) +
+  scale_color_manual(values = c("blue", "orange")) + 
+  geom_vline(xintercept = pennies_mu, color = "red") 
+```
+
+Of the 100 confidence intervals based on samples of size $n$ = 40, `r sum(perc_cis[["captured"]])` of them captured the population mean $\mu = `r round(pennies_mu,2)`$, whereas `r 100 - sum(perc_cis[["captured"]])` of them did not include it. If we repeated this process of building confidence intervals more times with more samples, we'd expect 95% of them to contain the population mean. In other words, the procedure we have used to generate confidence intervals is "95% reliable" in that we can expect it to include the true population parameter 95% of the time if the process is repeated.
+
+To further accentuate this point, let's perform a similar procedure using 90% confidence intervals instead. This time we will use the standard error method instead of the percentile method for computing the confidence intervals.
+
+```{r echo=FALSE}
+set.seed(2019)
+
+pennies_samples2 <- pennies %>% 
+  rep_sample_n(size = 40, reps = 100, replace = FALSE)
+
+nested_pennies2 <- pennies_samples2 %>% 
+  group_by(replicate) %>% 
+  tidyr::nest() %>% 
+  mutate(sample_mean = purrr::map_dbl(data, ~mean(.x$age_in_2011)))
+
+bootstrap_pipeline <- function(entry){
+  entry %>% 
+    specify(formula = age_in_2011 ~ NULL) %>% 
+    generate(reps = 1000) %>% 
+    calculate(stat = "mean")
+}
+
+if(!file.exists("rds/pennies_se_cis.rds")){
+  pennies_se_cis <- nested_pennies2 %>%
+    mutate(bootstraps = purrr::map(data, bootstrap_pipeline)) %>%
+    group_by(replicate) %>%
+    mutate(se_ci = purrr::map(bootstraps, get_ci, type = "se",
+                              level = 0.9,
+                              point_estimate = sample_mean))
+  saveRDS(object = pennies_se_cis, "rds/pennies_se_cis.rds")
+} else {
+  pennies_se_cis <- readRDS("rds/pennies_se_cis.rds")
+}
+
+se_cis <- pennies_se_cis %>%
+ tidyr::unnest(se_ci) %>%
+ mutate(captured = (lower_ci <= pennies_mu & pennies_mu <= upper_ci))
+
+ggplot(se_cis) +
+  geom_point(aes(x = sample_mean, y = replicate, color = captured)) +
+  geom_segment(aes(y = replicate, yend = replicate, x = lower_ci, xend = upper_ci, 
+                   color = captured)) +
+  labs(
+    x = expression("Age in 2011 (Years)"),
+    y = "Replicate ID",
+    title = expression(paste(
+      "90% standard error-based confidence intervals for ", mu, sep = "")
+      )
+  ) +
+  scale_color_manual(values = c("blue", "orange")) + 
+  geom_vline(xintercept = pennies_mu, color = "red") 
+
+```
+
+<br>
+
+```{r MCQ3, echo=FALSE}
+opts_Q3 <- sample(c("None of the confidence intervals contained the population mean",
+                    answer = "Less confidence intervals than expected contained the population mean",
+                    "The number of confidence intervals that contained the population mean was as expected",
+                    "More confidence intervals than expected contained the population mean",
+                    "All of the confidence intervals contained the population mean"))
+```
+
+**Looking at the behaviour of the 100 90% confidence intervals above:**
+`r longmcq(opts_Q3)`
+
+<br>
+
+Repeating this process for more samples would result in us getting closer and closer to 90% of the confidence intervals including the true value. It is common to say while interpreting a confidence interval to be "95% confident" or "90% confident" that the specified confidence interval contains the true value. We will use this "confident" language throughout the rest of this chapter, but remember that it is a theoretical statement about what we would expect to happen if we to sample again and again from the same population (which we don't do in practice, of course).
+
+Back to our pennies example; after this elaboration on what the level corresponds to in a confidence interval, let's conclude by providing an interpretation of the original confidence interval result we found in the last section.
+
+> We are 95% confident that the range of values from `r round(percentile_ci[["lower_ci"]],2)` years to `r round(percentile_ci[["upper_ci"]],2)` years contains the true mean age of pennies in circulation in 2011. 
+
+This level of confidence is based on the percentile-based method including the true mean 95% of the time if many different samples (not just the one we used) were collected and confidence intervals were created.
+
+<br>
+<br>
+
+

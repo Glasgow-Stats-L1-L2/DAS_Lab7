@@ -1,0 +1,125 @@
+# Bootstrapping {-}
+
+The `moderndive` package contains a sample of 40 pennies collected and minted in the United States. Let's explore this sample data first:
+
+```{r include=FALSE}
+set.seed(2018)
+pennies_sample <- pennies %>% sample_n(40)
+```
+
+```{r}
+orig_pennies_sample
+```
+
+The `orig_pennies_sample` data frame has rows corresponding to a single penny with two variables:
+
+- `year` of minting as shown on the penny and
+- `age_in_2011` giving the years the penny had been in circulation in 2011 as an integer, e.g. 15, 2, etc.
+
+Suppose we are interested in understanding some properties of the mean age of **all** US pennies from this data collected in 2011. How might we go about that? Let's begin by understanding some of the properties of `orig_pennies_sample` using data wrangling from Week 2 and data visualization from Week 1.
+
+
+## Exploratory data analysis {-}
+
+First, let's visualize the values in this sample as a histogram:
+
+```{r}
+ggplot(orig_pennies_sample, aes(x = age_in_2011)) +
+  geom_histogram(bins = 10, color = "white")
+```
+
+We see a roughly symmetric distribution here that has quite a few values near 20 years in age with only a few larger than 40 years or smaller than 5 years. If `orig_pennies_sample` is a representative sample from the population, we'd expect the age of all US pennies collected in 2011 to have a similar shape, a similar spread, and similar measures of central tendency like the mean.
+
+So where does the mean value fall for this sample? This point will be known as our **point estimate** and provides us with a single number that could serve as the guess to what the true population mean age might be. Recall how to find this using the `dplyr` package:
+
+```{r}
+x_bar <- orig_pennies_sample %>% 
+  summarize(stat = mean(age_in_2011))
+x_bar
+```
+
+We've denoted this *sample mean* as $\bar{x}$, which is the standard symbol for denoting the mean of a sample. Our point estimate is, thus, $\bar{x} = `r round(x_bar[[1, 1]], 1)`$. Note that this is just one sample providing just one sample mean to estimate the population mean. To construct a **confidence interval** (and to do any sort of *statistical inference* for that matter) we need to know about the **sampling distribution** of this sample mean, i.e. how would its values vary if many samples of the same size were drawn from the same population.
+
+The process of **bootstrapping** allows us to use a single sample to generate many different samples that will act as our way of approximating a sampling distribution using a created **bootstrap distribution** instead. We will "pull ourselves up by our bootstraps" (as the saying goes in English, see [here](https://en.wiktionary.org/wiki/pull_oneself_up_by_one%27s_bootstraps)) using a single sample (`orig_pennies_sample`) to get an idea of the **sampling distribution** of the sample mean.
+
+## The Bootstrapping Process {-}
+
+Bootstrapping uses a process of sampling **with replacement** from our original sample to create new **bootstrap samples** of the *same* size as our original sample. We can use the `rep_sample_n()` function in the `infer` package to explore what one such bootstrap sample would look like. Remember that we are randomly sampling from the original sample here **with replacement** and that we always use the same sample size for the bootstrap samples as the size of the original sample (`orig_pennies_sample`).
+
+```{r include=FALSE}
+set.seed(201)
+```
+
+```{r}
+bootstrap_sample1 <- orig_pennies_sample %>% 
+  rep_sample_n(size = 40, replace = TRUE, reps = 1)
+bootstrap_sample1
+```
+
+Let's visualize what this new bootstrap sample looks like:
+
+```{r}
+ggplot(bootstrap_sample1, aes(x = age_in_2011)) +
+  geom_histogram(bins = 10, color = "white")
+```
+
+We now have another sample from what we could assume comes from the population of interest. We can similarly calculate the sample mean of this bootstrap sample, called a **bootstrap statistic**.
+
+```{r}
+bootstrap_sample1 %>% 
+  summarize(stat = mean(age_in_2011))
+```
+
+<br>
+
+```{r MCQ1, echo=FALSE}
+opts_Q1 <- sample(c(answer = "The bootstrap sample mean is smaller than the original sample mean",
+                    "The bootstrap sample mean is the same as the original sample mean",
+                    "The bootstrap sample mean is larger than the original sample mean"))
+```
+
+**Which statement is true?**
+`r longmcq(opts_Q1)`
+
+<br>
+
+We'll come back to analyzing the variation in the values of different bootstrap samples' statistics shortly. But first, let's recap what was done to get to this single bootstrap sample using a tactile explanation:
+
+1. First, pretend that each of the 40 values of `age_in_2011` in `orig_pennies_sample` were written on a small piece of paper. Recall that these values were 6, 30, 34, 19, 6, etc.
+2. Now, put the 40 small pieces of paper into a receptacle such as a baseball cap.
+3. Shake up the pieces of paper.
+4. Draw "at random" from the cap to select one piece of paper.
+5. Write down the value on this piece of paper. Say that it is 28.
+6. Now, place this piece of paper containing 28 back into the cap.
+7. Draw "at random" again from the cap to select a piece of paper. Note that this is the *sampling with replacement* part since you may draw 28 again.
+8. Repeat this process until you have drawn 40 pieces of paper and written down the values on these 40 pieces of paper. Completing this repetition produces ONE bootstrap sample.
+
+If you look at the values in `bootstrap_sample1`, you can see how this process plays out. We originally drew 28, then we drew 11, then 7, and so on. Of course, we didn't actually use pieces of paper and a cap here. We just had the computer perform this process for us to produce `bootstrap_sample1` using `rep_sample_n()` with `replace = TRUE` set.
+
+The process of *sampling with replacement* is how we can use the original sample to take a guess as to what other values in the population may be. Sometimes in these bootstrap samples, we will select lots of larger values from the original sample, sometimes we will select lots of smaller values, and most frequently we will select values that are near the center of the sample. Let's explore what the distribution of values of `age_in_2011` for six different bootstrap samples looks like to further understand this variability.
+
+```{r}
+six_bootstrap_samples <- orig_pennies_sample %>% 
+  rep_sample_n(size = 40, replace = TRUE, reps = 6)
+```
+
+```{r}
+ggplot(six_bootstrap_samples, aes(x = age_in_2011)) +
+  geom_histogram(bins = 10, color = "white") +
+  facet_wrap(~ replicate)
+```
+
+We can also look at the six different means using `dplyr` syntax:
+
+```{r}
+six_bootstrap_samples %>% 
+  group_by(replicate) %>% 
+  summarize(stat = mean(age_in_2011))
+```
+
+Instead of doing this six times, we could do it 1000 times and then look at the distribution of `stat` across all 1000 of the `replicate`s. This sets the stage for the `infer` R package (see documentation [here](https://www.rdocumentation.org/packages/infer/versions/0.4.0) or the "Cheat Sheet" on the DA Moodle page) that helps users perform statistical inference such as confidence intervals and hypothesis tests using verbs similar to what you've seen with `dplyr`. In the next section we'll walk through setting up each of the `infer` verbs for confidence intervals using this `orig_pennies_sample` example, while also explaining the purpose of the verbs in a general framework.
+
+<br>
+<br>
+
+

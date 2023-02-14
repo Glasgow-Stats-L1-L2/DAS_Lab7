@@ -1,0 +1,33 @@
+# Further Tasks: Confidence Intervals {-}
+
+You are encouraged to complete the following tasks by using RMarkdown to produce a single document which summarises all your work, i.e. the original questions, your R code, your comments and reflections, etc.
+
+<br>
+
+**Task** In the last section, we constructed a confidence interval for the difference in the proportion of people who yawned between the "seeded" group and the "control" group (Scenario 3).
+
+By modifying the code in the last section in light of how we constructed a confidence interval for the age of pennies in the section on "Constructing confidence intervals" (Scenario 2), use `mythbusters_yawn` data to constuct a confidence interval for the proportion of people who yawn when they see someone else yawn (Scenario 1).  Does this overlap with the confidence interval for the proportion of people who yawn when they did not see someone else yawn (Scenario 1 again!)?  Are your findings here consistent with the findings in the last section?
+
+<br>
+
+**Task** Recall the data on 144 domestic male and female adult cats that we first saw in Week 4.  Each cat had their heart weight in grams (`Hwt`) and body weight in kilograms (`Bwt`) measured, and interest lies in exploring difference between females and males.
+
+a. Construct a bootstrap confidence intervals for the avearge heart weight of female and male cats separately?  Interpret your results.
+
+b. Construct a bootstrap confidence interval for the difference in the avearge heart weights of female and male cats.  Interpret your result. 
+
+c. Repeat a. and b. for the body weight of cats.
+
+`r hide("Hint")`
+You need to read in the `cats` data and remind yourself how it is organised, e.g.
+
+```{r data, echo=TRUE, eval=F}
+cats <- read.csv("cats.csv")
+glimpse(cats)
+```
+`r unhide()`
+
+<br>
+<br>
+
+

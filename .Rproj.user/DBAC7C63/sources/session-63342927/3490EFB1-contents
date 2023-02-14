@@ -1,0 +1,77 @@
+# Model comparisons using objective criteria {-}
+
+As was noted in the last section, when the number of potential predictor variables is large the problem of selecting which variables to include in the final model becomes more difficult.  The selection of a final regression model always involves a compromise:
+
+* Predictive accuracy (improved by including more predictors)
+* Parsimony and interpretability (achieved by having less predictors)
+
+
+There are many objective criteria for comparing different models applied to the same data set. All of them trade off the two objectives above, i.e.  fit to the data against complexity. Common examples include:
+
+1.  The $R^2_{adj}$ values, i.e. the proportions of total variation of response variable explained by the models.
+
+$$R_{adj}^2 = 1 - \frac{RSS/(n-p-1)}{SST/(n-1)} = 100 \times \Bigg[ 1-\frac{\sum_{i=1}^n(y_i-\hat y_i)^2/(n-p-1)}{\sum_{i=1}^n(y_i-\bar y_i)^2/(n-1)}\Bigg]$$
+
+  * where 
+      - $n$ is the sample size
+      - $p$ is the number of parameters in the model
+      - $RSS$ is the residual sum of squares from the fitted model
+      - $SST$ is the total sum of squares around the mean response.
+  * F ratios and the F-distribution can be used to compare the $R_{adj}^2$ values
+  * These can only be used for nested models, i.e. where one model is a particular case of the other
+
+2. Akaike's Information Criteria (AIC) 
+
+$$AIC = -2(\mbox{log-likeihood})+2p = n\mbox{ln}\Bigg(\frac{RSS}{n}\Bigg)+2p$$
+
+  * A value based on the maximum likelihood function of the parameters in the fitted model penalized by the number of parameters in the model
+  * Can be used to compare any models fitted to the same response variable 
+  * The smaller the AIC the 'better' the model, i.e. no distributional results are employed to assess differences 
+
+3. Bayesian Information Criteria 
+
+$$BIC = -2(\mbox{log-likeihood})+\mbox{ln}(n)p$$
+A popular data analysis strategy which we shall adopt is to calculate $R_{adj}^2$, $AIC$ and $BIC$ and prefer the models which **minimize** $AIC$ and $BIC$ and that **maximize** $R_{adj}^2$.
+
+To illustrate, let's return to the `evals` data and the MLR on the teaching evaluation score `score` with the two continuous explanatory variables `age` and `bty_avg` and compare this with the SLR model with just `bty_avg`.  To access these measures for model comparisons we can use the `glance()` function in the `broom` package (not to be confused with the `glimpse()` function in the `dplyr` package).
+
+```{r}
+library(broom)
+model.comp.values.slr.age <- glance(lm(score ~ age, data = evals))
+model.comp.values.slr.age
+model.comp.values.slr.bty_avg <- glance(lm(score ~ bty_avg, data = evals))
+model.comp.values.slr.bty_avg
+model.comp.values.mlr <- glance(lm(score ~ age + bty_avg, data = evals))
+model.comp.values.mlr
+```
+
+Note that $R_{adj}^2$, $AIC$ and $BIC$ are contained in columns 3, 9 and 10 respectively.  To access just these values and combine them in a single table we use:
+
+```{r}
+Models <- c('SLR(age)','SLR(bty_avg)','MLR') 
+bind_rows(model.comp.values.slr.age, model.comp.values.slr.bty_avg, 
+          model.comp.values.mlr,.id="Model") %>%
+  select(Model,adj.r.squared,AIC,BIC) %>%
+  mutate(Model=Models) %>%  
+  kable(
+     digits = 2,
+     caption = "Model comparison values for different models" 
+  )
+```
+
+<br>
+
+```{r MCQ12, echo=FALSE}
+opts_Q12 <- sample(c("The SLR model with `age`",
+                     answer = "The SLR model with `bty_avg`",
+                     "The MLR model with both `age` and `bty_avg`",
+                     "Inconclusive"))
+```
+
+**Based on these values and the model comparison strategy outlined above, which of these three models would you favour?**
+`r longmcq(opts_Q12)`
+
+<br>
+<br>
+
+

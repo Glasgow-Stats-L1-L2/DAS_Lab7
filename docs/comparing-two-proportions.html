@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Comparing two proportions | Data Analysis: Confidence Intervals and Model Parameter Selection</title>
+  <meta name="description" content="Comparing two proportions | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Comparing two proportions | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Comparing two proportions | Data Analysis: Confidence Intervals and Model Parameter Selection" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="interpreting-the-confidence-interval.html"/>
+<link rel="next" href="further-tasks-confidence-intervals.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+<link rel="stylesheet" href="include/webex.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
+<ul>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
+<ul>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
+<li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
+<li class="chapter" data-level="" data-path="a-final-word-on-model-selection.html"><a href="a-final-word-on-model-selection.html"><i class="fa fa-check"></i>A final word on model selection</a></li>
+<li class="chapter" data-level="" data-path="further-tasks-model-parameter-selection.html"><a href="further-tasks-model-parameter-selection.html"><i class="fa fa-check"></i>Further Tasks: Model Parameter Selection</a></li>
+<li class="chapter" data-level="" data-path="inference-via-sampling.html"><a href="inference-via-sampling.html"><i class="fa fa-check"></i>Inference via sampling</a></li>
+<li class="chapter" data-level="" data-path="inference-using-sample-statistics.html"><a href="inference-using-sample-statistics.html"><i class="fa fa-check"></i>Inference using sample statistics</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping.html"><a href="bootstrapping.html"><i class="fa fa-check"></i>Bootstrapping</a>
+<ul>
+<li class="chapter" data-level="" data-path="bootstrapping.html"><a href="bootstrapping.html#exploratory-data-analysis"><i class="fa fa-check"></i>Exploratory data analysis</a></li>
+<li class="chapter" data-level="" data-path="bootstrapping.html"><a href="bootstrapping.html#the-bootstrapping-process"><i class="fa fa-check"></i>The Bootstrapping Process</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html"><i class="fa fa-check"></i>The <span><code>infer</code></span> package for statistical inference</a>
+<ul>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#specify"><i class="fa fa-check"></i><code>specify()</code></a></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#generate"><i class="fa fa-check"></i><code>generate()</code></a></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#calculate"><i class="fa fa-check"></i><code>calculate()</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#observed-statistic"><i class="fa fa-check"></i>Observed statistic</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="the-infer-package-for-statistical-inference.html"><a href="the-infer-package-for-statistical-inference.html#visualize"><i class="fa fa-check"></i><code>visualize()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="constructing-confidence-intervals.html"><a href="constructing-confidence-intervals.html"><i class="fa fa-check"></i>Constructing confidence intervals</a>
+<ul>
+<li class="chapter" data-level="" data-path="constructing-confidence-intervals.html"><a href="constructing-confidence-intervals.html#the-percentile-method"><i class="fa fa-check"></i>1. The percentile method</a></li>
+<li class="chapter" data-level="" data-path="constructing-confidence-intervals.html"><a href="constructing-confidence-intervals.html#the-standard-error-method"><i class="fa fa-check"></i>2. The standard error method</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="interpreting-the-confidence-interval.html"><a href="interpreting-the-confidence-interval.html"><i class="fa fa-check"></i>Interpreting the confidence interval</a></li>
+<li class="chapter" data-level="" data-path="comparing-two-proportions.html"><a href="comparing-two-proportions.html"><i class="fa fa-check"></i>Comparing two proportions</a>
+<ul>
+<li class="chapter" data-level="" data-path="comparing-two-proportions.html"><a href="comparing-two-proportions.html#compute-the-point-estimate"><i class="fa fa-check"></i>Compute the point estimate</a></li>
+<li class="chapter" data-level="" data-path="comparing-two-proportions.html"><a href="comparing-two-proportions.html#bootstrap-distribution"><i class="fa fa-check"></i>Bootstrap distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="further-tasks-confidence-intervals.html"><a href="further-tasks-confidence-intervals.html"><i class="fa fa-check"></i>Further Tasks: Confidence Intervals</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Analysis: Confidence Intervals and Model Parameter Selection</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="comparing-two-proportions" class="section level1 unnumbered hasAnchor">
+<h1>Comparing two proportions<a href="comparing-two-proportions.html#comparing-two-proportions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<table style="width:100%;">
+<caption><span id="tab:inference-summary-tableRPT">Table 9: </span>Scenarios of sample statisitics for inference (Table 1 repeated)</caption>
+<colgroup>
+<col width="6%" />
+<col width="27%" />
+<col width="15%" />
+<col width="24%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">Scenario</th>
+<th align="left">Population parameter</th>
+<th align="left">Population Notation</th>
+<th align="left">Point estimate/sample statistic</th>
+<th align="left">Sample Notation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">Population proportion</td>
+<td align="left"><span class="math inline">\(p\)</span></td>
+<td align="left">Sample proportion</td>
+<td align="left"><span class="math inline">\(\widehat{p}\)</span></td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">Population mean</td>
+<td align="left"><span class="math inline">\(\mu\)</span></td>
+<td align="left">Sample mean</td>
+<td align="left"><span class="math inline">\(\overline{x}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Difference in population proportions</td>
+<td align="left"><span class="math inline">\(p_1 - p_2\)</span></td>
+<td align="left">Difference in sample proportions</td>
+<td align="left"><span class="math inline">\(\widehat{p}_1 - \widehat{p}_2\)</span></td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Difference in population means</td>
+<td align="left"><span class="math inline">\(\mu_1 - \mu_2\)</span></td>
+<td align="left">Difference in sample means</td>
+<td align="left"><span class="math inline">\(\overline{x}_1 - \overline{x}_2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Population regression intercept</td>
+<td align="left"><span class="math inline">\(\beta_0\)</span></td>
+<td align="left">Sample regression intercept</td>
+<td align="left"><span class="math inline">\(\widehat{\beta}_0\)</span> or <span class="math inline">\(b_0\)</span></td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Population regression slope</td>
+<td align="left"><span class="math inline">\(\beta_1\)</span></td>
+<td align="left">Sample regression slope</td>
+<td align="left"><span class="math inline">\(\widehat{\beta}_1\)</span> or <span class="math inline">\(b_1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>In the previous sections we have considered Scenario 2 in Table 1 (reproduced here), i.e. constructing a confidence interval for a single population mean. Often, however, interest lies in comparing two populations, e.g. by constructing a confidence interval for the difference in the population means, as in Scenario 4. But it may be that the characteristic of interest is a population proportion (rather than a population mean) which is reflected in Scenarios 1 and 3. In this section we will focus on Scenario 3, i.e. constructing a confidence interval for the difference in two population proportions.</p>
+<p>Let's start with an example. If you see someone else yawn, are you more likely to yawn? In an episode of the TV show <a href="https://en.wikipedia.org/wiki/MythBusters"><em>Mythbusters</em></a>, they tested the myth that yawning is contagious.</p>
+<p>Fifty adults who thought they were being considered for an appearance on the show were interviewed by a show recruiter ("confederate") who either yawned or did not. Participants then sat by themselves in a large van and were asked to wait. While in the van, the Mythbusters watched via hidden camera to see if the unaware participants yawned. The data frame containing the results is available at <code>mythbusters_yawn</code> in the <code>moderndive</code> package. Let's check it out.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="comparing-two-proportions.html#cb66-1" aria-hidden="true" tabindex="-1"></a>mythbusters_yawn</span></code></pre></div>
+<pre><code># A tibble: 50 x 3
+    subj group   yawn 
+   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
+ 1     1 seed    yes  
+ 2     2 control yes  
+ 3     3 seed    no   
+ 4     4 seed    yes  
+ 5     5 seed    no   
+ 6     6 control no   
+ 7     7 seed    yes  
+ 8     8 control no   
+ 9     9 control no   
+10    10 seed    no   
+# ... with 40 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<ul>
+<li>The participant ID is stored in the <code>subj</code> variable with values of 1 to 50.</li>
+<li>The <code>group</code> variable is either <code>"seed"</code> for when a confederate was trying to influence the participant or <code>"control"</code> if a confederate did not interact with the participant.</li>
+<li>The <code>yawn</code> variable is either <code>"yes"</code> if the participant yawned or <code>"no"</code> if the participant did not yawn.</li>
+</ul>
+<p>We can use the <code>janitor</code> package to get a glimpse into this data in a table format:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="comparing-two-proportions.html#cb68-1" aria-hidden="true" tabindex="-1"></a>mythbusters_yawn <span class="sc">%&gt;%</span> </span>
+<span id="cb68-2"><a href="comparing-two-proportions.html#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(group, yawn) <span class="sc">%&gt;%</span> </span>
+<span id="cb68-3"><a href="comparing-two-proportions.html#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_percentages</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb68-4"><a href="comparing-two-proportions.html#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_pct_formatting</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb68-5"><a href="comparing-two-proportions.html#cb68-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">adorn_ns</span>() <span class="co"># To show original counts</span></span></code></pre></div>
+<pre><code>   group         no        yes
+ control 75.0% (12) 25.0%  (4)
+    seed 70.6% (24) 29.4% (10)</code></pre>
+<p>We are interested in comparing the proportion of those that yawned after seeing a <code>seed</code> versus those that yawned with no seed interaction (i.e. <code>control</code>). We'd like to see if the difference between these two proportions is significantly larger than 0. If so, we'd have evidence to support the claim that yawning is contagious based on this study.</p>
+<p>In looking over this problem, we can take note of some important details to include in our <code>infer</code> pipeline:</p>
+<ul>
+<li>We are calling a "<code>success</code>" having a <code>yawn</code> value of <code>yes</code>.</li>
+<li>Our response variable will always correspond to the variable used in the <code>success</code> so the response variable is <code>yawn</code>.</li>
+<li>The explanatory variable is the other variable of interest here: <code>group</code>.</li>
+</ul>
+<div id="compute-the-point-estimate" class="section level2 unnumbered hasAnchor">
+<h2>Compute the point estimate<a href="comparing-two-proportions.html#compute-the-point-estimate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We are examining the relationship between yawning and whether or not the participant saw someone yawn (<code>seed</code>) or not (<code>control</code>).</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="comparing-two-proportions.html#cb70-1" aria-hidden="true" tabindex="-1"></a>mythbusters_yawn <span class="sc">%&gt;%</span> </span>
+<span id="cb70-2"><a href="comparing-two-proportions.html#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">formula =</span> yawn <span class="sc">~</span> group)</span></code></pre></div>
+<pre><code>Error: A level of the response variable `yawn` needs to be specified for the `success` argument in `specify()`.</code></pre>
+<p>Note that the <code>success</code> argument must be specified in situations such as this where the response variable has only two levels.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="comparing-two-proportions.html#cb72-1" aria-hidden="true" tabindex="-1"></a>mythbusters_yawn <span class="sc">%&gt;%</span> </span>
+<span id="cb72-2"><a href="comparing-two-proportions.html#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">formula =</span> yawn <span class="sc">~</span> group, <span class="at">success =</span> <span class="st">&quot;yes&quot;</span>)</span></code></pre></div>
+<pre><code>Response: yawn (factor)
+Explanatory: group (factor)
+# A tibble: 50 x 2
+   yawn  group  
+   &lt;fct&gt; &lt;fct&gt;  
+ 1 yes   seed   
+ 2 yes   control
+ 3 no    seed   
+ 4 yes   seed   
+ 5 no    seed   
+ 6 no    control
+ 7 yes   seed   
+ 8 no    control
+ 9 no    control
+10 no    seed   
+# ... with 40 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<p>We next want to calculate the statistic of interest for our sample. This corresponds to the difference in the proportion of successes.</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="comparing-two-proportions.html#cb74-1" aria-hidden="true" tabindex="-1"></a>mythbusters_yawn <span class="sc">%&gt;%</span> </span>
+<span id="cb74-2"><a href="comparing-two-proportions.html#cb74-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">formula =</span> yawn <span class="sc">~</span> group, <span class="at">success =</span> <span class="st">&quot;yes&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb74-3"><a href="comparing-two-proportions.html#cb74-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&quot;diff in props&quot;</span>)</span></code></pre></div>
+<pre><code>Warning: The statistic is based on a difference or ratio; by default, for
+difference-based statistics, the explanatory variable is subtracted in the
+order &quot;control&quot; - &quot;seed&quot;, or divided in the order &quot;control&quot; / &quot;seed&quot; for ratio-
+based statistics. To specify this order yourself, supply `order = c(&quot;control&quot;,
+&quot;seed&quot;)` to the calculate() function.</code></pre>
+<pre><code>Response: yawn (factor)
+Explanatory: group (factor)
+# A tibble: 1 x 1
+     stat
+    &lt;dbl&gt;
+1 -0.0441</code></pre>
+<p>We see another error here. To further check to make sure that R knows exactly what we are after, we need to provide the <code>order</code> in which R should subtract these proportions of successes. As the error message states, we'll want to put <code>"seed"</code> first after <code>c()</code> and then <code>"control"</code>: <code>order = c("seed", "control")</code>. Our point estimate is thus calculated:</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="comparing-two-proportions.html#cb77-1" aria-hidden="true" tabindex="-1"></a>obs_diff <span class="ot">&lt;-</span> mythbusters_yawn <span class="sc">%&gt;%</span> </span>
+<span id="cb77-2"><a href="comparing-two-proportions.html#cb77-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">formula =</span> yawn <span class="sc">~</span> group, <span class="at">success =</span> <span class="st">&quot;yes&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb77-3"><a href="comparing-two-proportions.html#cb77-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&quot;diff in props&quot;</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">&quot;seed&quot;</span>, <span class="st">&quot;control&quot;</span>))</span>
+<span id="cb77-4"><a href="comparing-two-proportions.html#cb77-4" aria-hidden="true" tabindex="-1"></a>obs_diff</span></code></pre></div>
+<pre><code>Response: yawn (factor)
+Explanatory: group (factor)
+# A tibble: 1 x 1
+    stat
+   &lt;dbl&gt;
+1 0.0441</code></pre>
+<p>This value represents the proportion of those that yawned after seeing a seed yawn (0.2941) minus the proportion of those that yawned with not seeing a seed (0.25).</p>
+</div>
+<div id="bootstrap-distribution" class="section level2 unnumbered hasAnchor">
+<h2>Bootstrap distribution<a href="comparing-two-proportions.html#bootstrap-distribution" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our next step in building a confidence interval is to create a bootstrap distribution of statistics (differences in proportions of successes). We saw how it works with a single variable in computing bootstrap means in the <code>pennies</code> example but we haven't yet worked with bootstrapping involving multiple variables, i.e. comparing two groups.
+In the <code>infer</code> package, bootstrapping with multiple variables means that each <strong>row</strong> is potentially resampled. Let's investigate this by looking at the first few rows of <code>mythbusters_yawn</code>:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="comparing-two-proportions.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mythbusters_yawn)</span></code></pre></div>
+<pre><code># A tibble: 6 x 3
+   subj group   yawn 
+  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
+1     1 seed    yes  
+2     2 control yes  
+3     3 seed    no   
+4     4 seed    yes  
+5     5 seed    no   
+6     6 control no   </code></pre>
+<p>When we bootstrap this data, we are potentially pulling the subject's readings multiple times. Thus, we could see the entries of <code>"seed"</code> for <code>group</code> and <code>"no"</code> for <code>yawn</code> together in a new row in a bootstrap sample. This is further seen by exploring the <code>sample_n()</code> function in <code>dplyr</code> on this smaller 6 row data frame comprised of <code>head(mythbusters_yawn)</code>. The <code>sample_n()</code> function can perform this bootstrapping procedure and is similar to the <code>rep_sample_n()</code> function in <code>infer</code>, except that it is not <code>rep</code>eated but rather only performs one sample with or without replacement.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="comparing-two-proportions.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mythbusters_yawn) <span class="sc">%&gt;%</span> </span>
+<span id="cb81-2"><a href="comparing-two-proportions.html#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="at">size =</span> <span class="dv">6</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code># A tibble: 6 x 3
+   subj group   yawn 
+  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;
+1     1 seed    yes  
+2     5 seed    no   
+3     2 control yes  
+4     5 seed    no   
+5     5 seed    no   
+6     1 seed    yes  </code></pre>
+<p>We can see that in this bootstrap sample generated from the first six rows of <code>mythbusters_yawn</code>, we have some rows repeated. The same is true when we perform the <code>generate()</code> step in <code>infer</code> as done below.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="comparing-two-proportions.html#cb83-1" aria-hidden="true" tabindex="-1"></a>bootstrap_distribution <span class="ot">&lt;-</span> mythbusters_yawn <span class="sc">%&gt;%</span> </span>
+<span id="cb83-2"><a href="comparing-two-proportions.html#cb83-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">formula =</span> yawn <span class="sc">~</span> group, <span class="at">success =</span> <span class="st">&quot;yes&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb83-3"><a href="comparing-two-proportions.html#cb83-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb83-4"><a href="comparing-two-proportions.html#cb83-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&quot;diff in props&quot;</span>, <span class="at">order =</span> <span class="fu">c</span>(<span class="st">&quot;seed&quot;</span>, <span class="st">&quot;control&quot;</span>))</span></code></pre></div>
+<pre><code>Response: yawn (factor)
+Explanatory: group (factor)
+# A tibble: 1,000 x 2
+   replicate    stat
+       &lt;int&gt;   &lt;dbl&gt;
+ 1         1  0.110 
+ 2         2 -0.143 
+ 3         3 -0.0167
+ 4         4  0.280 
+ 5         5  0.128 
+ 6         6 -0.0903
+ 7         7  0.144 
+ 8         8 -0.0381
+ 9         9  0.0286
+10        10 -0.225 
+# ... with 990 more rows
+# i Use `print(n = ...)` to see more rows</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="comparing-two-proportions.html#cb85-1" aria-hidden="true" tabindex="-1"></a>bootstrap_distribution <span class="sc">%&gt;%</span> </span>
+<span id="cb85-2"><a href="comparing-two-proportions.html#cb85-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>(<span class="at">bins =</span> <span class="dv">20</span>)</span></code></pre></div>
+<p><img src="main_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
+<p>This distribution is roughly symmetric and bell-shaped but isn't quite there. Let's use the percentile-based method to compute a 95% confidence interval for the true difference in the proportion of those that yawn with and without a seed presented. The arguments are explicitly listed here but remember they are the defaults and simply <code>get_ci()</code> can be used.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="comparing-two-proportions.html#cb86-1" aria-hidden="true" tabindex="-1"></a>bootstrap_distribution <span class="sc">%&gt;%</span> </span>
+<span id="cb86-2"><a href="comparing-two-proportions.html#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_ci</span>(<span class="at">type =</span> <span class="st">&quot;percentile&quot;</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<pre><code># A tibble: 1 x 2
+  lower_ci upper_ci
+     &lt;dbl&gt;    &lt;dbl&gt;
+1   -0.237    0.309</code></pre>
+<p><br></p>
+<strong>Looking at the confidence interval shown here:</strong>
+<div id="radio_KGOVVVXJHD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KGOVVVXJHD" value="answer"></input> <span>There is insufficient evidence that the probability of yawning is related to seeing someone yawn</span></label><label><input type="radio" autocomplete="off" name="radio_KGOVVVXJHD" value=""></input> <span>We have evidence that you are less likely to yawn after seeing someone yawn</span></label><label><input type="radio" autocomplete="off" name="radio_KGOVVVXJHD" value=""></input> <span>We have evidence that you are more likely to yawn after seeing someone yawn</span></label>
+</div>
+<p><br></p>
+<p>Therefore, we are not sure which proportion is larger. Some of the bootstrap statistics showed the proportion without a seed to be higher and others showed the proportion with a seed to be higher. If the confidence interval was entirely above zero, we would be relatively sure (about "95% confident") that the seed group had a higher proportion of yawning than the control group.</p>
+<p>Note that this all relates to the importance of denoting the <code>order</code> argument in the <code>calculate()</code> function. Since we specified <code>"seed"</code> and then <code>"control"</code> positive values for the statistic correspond to the <code>"seed"</code> proportion being higher, whereas negative values correspond to the <code>"control"</code> group being higher.</p>
+<p>We, therefore, have evidence via this confidence interval suggesting that the conclusion from the Mythbusters show that "yawning is contagious" being "confirmed" is <strong>not</strong> statistically correct.</p>
+<p><br>
+<br></p>
+
+</div>
+</div>
+<script>
+
+/* update total correct if #webex-total_correct exists */
+update_total_correct = function() {
+  console.log("webex: update total_correct");
+
+  if (t = document.getElementById("webex-total_correct")) {
+    var correct = document.getElementsByClassName("webex-correct").length;
+    var solvemes = document.getElementsByClassName("webex-solveme").length;
+    var radiogroups = document.getElementsByClassName("webex-radiogroup").length;
+    var selects = document.getElementsByClassName("webex-select").length;
+    
+    t.innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+  }
+}
+
+/* webex-solution button toggling function */
+b_func = function() {
+  console.log("webex: toggle hide");
+  
+  var cl = this.parentElement.classList;
+  if (cl.contains('open')) {
+    cl.remove("open");
+  } else {
+    cl.add("open");
+  }
+}
+
+/* function for checking solveme answers */
+solveme_func = function(e) {
+  console.log("webex: check solveme");
+
+  var real_answers = JSON.parse(this.dataset.answer);
+  var my_answer = this.value;
+  var cl = this.classList;
+  if (cl.contains("ignorecase")) {
+    my_answer = my_answer.toLowerCase();
+  }
+  if (cl.contains("nospaces")) {
+    my_answer = my_answer.replace(/ /g, "")
+  }
+
+  if (my_answer == "") {
+    cl.remove("webex-correct");
+    cl.remove("webex-incorrect");
+  } else if (real_answers.includes(my_answer)) {
+    cl.add("webex-correct");
+    cl.remove("webex-incorrect");
+  } else {
+    cl.add("webex-incorrect");
+    cl.remove("webex-correct");
+  }
+
+  // match numeric answers within a specified tolerance
+  if(this.dataset.tol > 0){
+    var tol = JSON.parse(this.dataset.tol);
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+      cl.add("webex-correct");
+    } else {
+      cl.remove("webex-correct");
+    }
+  }
+
+  // added regex bit
+  if (cl.contains("regex")){
+    answer_regex = RegExp(real_answers.join("|"))
+    if (answer_regex.test(my_answer)) {
+      cl.add("webex-correct");
+    }
+  }
+
+  update_total_correct();
+}
+
+/* function for checking select answers */
+select_func = function(e) {
+  console.log("webex: check select");
+  
+  var cl = this.classList
+  
+  /* add style */
+  cl.remove("webex-incorrect");
+  cl.remove("webex-correct");
+  if (this.value == "answer") {
+    cl.add("webex-correct");
+  } else if (this.value != "blank") {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+/* function for checking radiogroups answers */
+radiogroups_func = function(e) {
+  console.log("webex: check radiogroups");
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+  var cl = checked_button.parentElement.classList;
+  var labels = checked_button.parentElement.parentElement.children;
+  
+  /* get rid of styles */
+  for (i = 0; i < labels.length; i++) {
+    labels[i].classList.remove("webex-incorrect");
+    labels[i].classList.remove("webex-correct");
+  }
+  
+  /* add style */
+  if (checked_button.value == "answer") {
+    cl.add("webex-correct");
+  } else {
+    cl.add("webex-incorrect");
+  }
+  
+  update_total_correct();
+}
+
+window.onload = function() {
+  console.log("onload");
+  /* set up solution buttons */
+  var buttons = document.getElementsByTagName("button");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+      buttons[i].onclick = b_func;
+    }
+  }
+
+  /* set up webex-solveme inputs */
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+  for (var i = 0; i < solveme.length; i++) {
+    /* make sure input boxes don't auto-anything */
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].setAttribute("autocorrect", "off");
+    solveme[i].setAttribute("autocapitalize", "off");
+    solveme[i].setAttribute("spellcheck", "false");
+    solveme[i].value = "";
+
+    /* adjust answer for ignorecase or nospaces */
+    var cl = solveme[i].classList;
+    var real_answer = solveme[i].dataset.answer;
+    if (cl.contains("ignorecase")) {
+      real_answer = real_answer.toLowerCase();
+    }
+    if (cl.contains("nospaces")) {
+      real_answer = real_answer.replace(/ /g, "");
+    }
+    solveme[i].dataset.answer = real_answer;
+
+    /* attach checking function */
+    solveme[i].onkeyup = solveme_func;
+    solveme[i].onchange = solveme_func;
+  }
+  
+  /* set up radiogroups */
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+  for (var i = 0; i < radiogroups.length; i++) {
+    radiogroups[i].onchange = radiogroups_func;
+  }
+  
+  /* set up selects */
+  var selects = document.getElementsByClassName("webex-select");
+  for (var i = 0; i < selects.length; i++) {
+    selects[i].onchange = select_func;
+  }
+
+  update_total_correct();
+}
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="interpreting-the-confidence-interval.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="further-tasks-confidence-intervals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["main.pdf", "main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"info": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
