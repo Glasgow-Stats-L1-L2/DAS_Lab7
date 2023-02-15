@@ -133,16 +133,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
-<ul>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a></li>
 <li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
 <ul>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression-ey_i-alpha-beta-x_i"><i class="fa fa-check"></i>Simple Linear Regression: <span class="math inline">\(E(y_i) = \alpha + \beta x_i\)</span></a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-..."><i class="fa fa-check"></i>Multiple Regression <span class="math inline">\(E(y_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + ...\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
 <li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
@@ -186,9 +181,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>If we have only a few explanatory variables, then an extension of the strategy outlined above would be effective, i.e. start with the full model and simplify by removing terms until no further terms can be removed. When the number of explanatory variables is large the problem becomes more difficult. We will consider this more challenging situation in the next section.</p>
 <p>Recall that as well as <code>age</code> and <code>gender</code>, there is also a potential explanatory variable <code>bty_avg</code> in the <code>evals</code> data, i.e. the numerical variable of the average beauty score from a panel of six students' scores between 1 and 10. We can fit the multiple regression model with the two continuous explanatory variables <code>age</code> and <code>bty_avg</code> as follows:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="variable-selection-using-confidence-intervals.html#cb15-1" aria-hidden="true" tabindex="-1"></a>mlr.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">+</span> bty_avg, <span class="at">data =</span> evals)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="variable-selection-using-confidence-intervals.html#cb7-1" aria-hidden="true" tabindex="-1"></a>mlr.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">+</span> bty_avg, <span class="at">data =</span> evals)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-21">Table 6: </span>Esimate summaries from the MLR model with <code>age</code> and <code>bty_avg</code></caption>
+<caption><span id="tab:unnamed-chunk-17">Table 5: </span>Esimate summaries from the MLR model with <code>age</code> and <code>bty_avg</code></caption>
 <thead>
 <tr class="header">
 <th align="left">term</th>
@@ -232,8 +227,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p><br></p>
 <strong>Following the process outlined above for choosing which variables to include in the model, what would be your next step after fitting this MLR model?</strong>
-<div id="radio_BHKRTOJINK" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value=""></input> <span>Fit a SLR model with <code>age</code></span></label><label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value="answer"></input> <span>Fit a SLR model with <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value=""></input> <span>Keep the MLR model with both <code>age</code> and <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_BHKRTOJINK" value=""></input> <span>Drop both <code>age</code> and <code>bty_avg</code> from the model</span></label>
+<div id="radio_LAHDCNKFBB" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_LAHDCNKFBB" value=""></input> <span>Keep the MLR model with both <code>age</code> and <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_LAHDCNKFBB" value=""></input> <span>Fit a SLR model with <code>age</code></span></label><label><input type="radio" autocomplete="off" name="radio_LAHDCNKFBB" value=""></input> <span>Drop both <code>age</code> and <code>bty_avg</code> from the model</span></label><label><input type="radio" autocomplete="off" name="radio_LAHDCNKFBB" value="answer"></input> <span>Fit a SLR model with <code>bty_avg</code></span></label>
 </div>
 <p><br>
 <br></p>

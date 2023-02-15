@@ -1,6 +1,6 @@
 h1:inference-using-confidence-intervals Inference using Confidence Intervals
-h2:simple-linear-regression Simple Linear Regression
+h2:simple-linear-regression-ey_i-alpha-beta-x_i Simple Linear Regression: 
 tab:echo Estimate summaries from the SLR Model of `score` on `age`.
-h2:multiple-regression Multiple Regression
+h2:multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-... Multiple Regression 
 tab:echo Model 2 (Regression table with interaction effect included)
 

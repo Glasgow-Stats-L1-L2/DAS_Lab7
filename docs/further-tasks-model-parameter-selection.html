@@ -133,16 +133,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
-<ul>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a></li>
 <li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
 <ul>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression-ey_i-alpha-beta-x_i"><i class="fa fa-check"></i>Simple Linear Regression: <span class="math inline">\(E(y_i) = \alpha + \beta x_i\)</span></a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-..."><i class="fa fa-check"></i>Multiple Regression <span class="math inline">\(E(y_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + ...\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
 <li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
@@ -186,7 +181,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: lower-alpha">
 <li>By looking at the univariate and bivariate distributions on the <code>price</code> and <code>sqft</code> variables below, what would be a sensible way to proceed if we wanted to model this data? What care must be taken if you were to proceed this way?</li>
 </ol>
-<p><img src="main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="main_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Fit the simple linear model with <code>log(price)</code> as the response and <code>log(sqft)</code> as the predictor. Display the fitted model on a scatterplot of the data and construct a bootstrap confidence interval (using the percentiles of the bootstrap distribution) for the slope parameter in the model and interpret its point and interval estimates.</li>
 </ol>
@@ -222,15 +217,15 @@ Hint
 <ol style="list-style-type: lower-alpha">
 <li>Use the <code>ggpairs</code> function in the <code>GGally</code> package (see the following code) to generate an informative set of graphical and numerical summaries which illuminate the relationships between pairs of variables. Where do you see the strongest evidence of relationships between <code>price</code> and the potential explanatory variables? Is there evidence of multicollineatity in the data?</li>
 </ol>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="further-tasks-model-parameter-selection.html#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally) <span class="co">#Package to produce matrix of &#39;pairs&#39; plots and more!</span></span>
-<span id="cb23-2"><a href="further-tasks-model-parameter-selection.html#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="further-tasks-model-parameter-selection.html#cb23-3" aria-hidden="true" tabindex="-1"></a>restNYC<span class="sc">$</span>East <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(restNYC<span class="sc">$</span>East) <span class="co"># East needs to be a factor</span></span>
-<span id="cb23-4"><a href="further-tasks-model-parameter-selection.html#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="further-tasks-model-parameter-selection.html#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Including the `East` factor</span></span>
-<span id="cb23-6"><a href="further-tasks-model-parameter-selection.html#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(restNYC[,<span class="dv">4</span><span class="sc">:</span><span class="dv">8</span>], <span class="fu">aes</span>(<span class="at">colour =</span> East, <span class="at">alpha =</span> <span class="fl">0.4</span>)) </span>
-<span id="cb23-7"><a href="further-tasks-model-parameter-selection.html#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-8"><a href="further-tasks-model-parameter-selection.html#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Without the `East` factor</span></span>
-<span id="cb23-9"><a href="further-tasks-model-parameter-selection.html#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(restNYC[,<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>], <span class="fu">aes</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="further-tasks-model-parameter-selection.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally) <span class="co">#Package to produce matrix of &#39;pairs&#39; plots and more!</span></span>
+<span id="cb14-2"><a href="further-tasks-model-parameter-selection.html#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="further-tasks-model-parameter-selection.html#cb14-3" aria-hidden="true" tabindex="-1"></a>restNYC<span class="sc">$</span>East <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(restNYC<span class="sc">$</span>East) <span class="co"># East needs to be a factor</span></span>
+<span id="cb14-4"><a href="further-tasks-model-parameter-selection.html#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="further-tasks-model-parameter-selection.html#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Including the `East` factor</span></span>
+<span id="cb14-6"><a href="further-tasks-model-parameter-selection.html#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(restNYC[,<span class="dv">4</span><span class="sc">:</span><span class="dv">8</span>], <span class="fu">aes</span>(<span class="at">colour =</span> East, <span class="at">alpha =</span> <span class="fl">0.4</span>)) </span>
+<span id="cb14-7"><a href="further-tasks-model-parameter-selection.html#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="further-tasks-model-parameter-selection.html#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Without the `East` factor</span></span>
+<span id="cb14-9"><a href="further-tasks-model-parameter-selection.html#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(restNYC[,<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>], <span class="fu">aes</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>)) </span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
 <li><p>Fit the simple linear model with <code>Price</code> as the response and <code>Service</code> as the predictor and display the fitted model on a scatterplot of the data. Construct a bootstrap confidence interval (using the standard error from the bootstrap distribution) for the slope parameter in the model.</p>
 <p>Now fit a multiple regressing model of <code>Price</code> on <code>Service</code>, <code>Food</code>, and <code>Decor</code>. What happens to the significance of <code>Service</code> when additional variables were added to the model?</p></li>

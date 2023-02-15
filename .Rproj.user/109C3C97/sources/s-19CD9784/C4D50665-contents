@@ -1,0 +1,19 @@
+# Model Parameter Selection {-}
+
+We have begun to consider the construction and use of confidence intervals (CIs) for the population parameters listed in Table \@ref(tab:inference-summary-table-repeat).  In particular, we used bootstrap methods to estimate the sampling distributions of the estimates in Scenarios 1-4 and used these to construct confidence intervals for the corresponding population parameters.
+
+```{r inference-summary-table-repeat, echo=FALSE, message=FALSE, warning=FALSE}
+# Original at https://docs.google.com/spreadsheets/d/1QkOpnBGqOXGyJjwqx1T2O5G5D72wWGfWlPyufOgtkk4/edit#gid=0
+read_csv("data/ch9_summary_table-Sheet1.csv", na = "") %>% 
+  kable(
+    caption = "Scenarios of sample statisitics for inference (Table 1 repeated)", 
+    booktabs = TRUE
+  )
+```
+
+Now, we will continue this process for Scenarios 5 and 6, namely construct confidence intervals for the parameters in simple and multiple linear regression models.  We will start with bootstrap methods and also consider confidence intervals based on theoretical results when standard assumptions hold.  We will also consider how to use confidence intervals for variable selection and finish by considering a model selection strategy based on objective measures for model comparisons.
+
+<br>
+<br>
+
+

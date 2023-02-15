@@ -133,16 +133,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
-<ul>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a></li>
 <li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
 <ul>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression-ey_i-alpha-beta-x_i"><i class="fa fa-check"></i>Simple Linear Regression: <span class="math inline">\(E(y_i) = \alpha + \beta x_i\)</span></a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-..."><i class="fa fa-check"></i>Multiple Regression <span class="math inline">\(E(y_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + ...\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
 <li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
@@ -167,19 +162,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="inference-using-confidence-intervals" class="section level1 unnumbered hasAnchor">
 <h1>Inference using Confidence Intervals<a href="inference-using-confidence-intervals.html#inference-using-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Having described several ways of calculating confidence intervals for model parameters, we are now in a position to interpret them for the purposes of statistical inference.</p>
-<div id="simple-linear-regression" class="section level2 unnumbered hasAnchor">
-<h2>Simple Linear Regression<a href="inference-using-confidence-intervals.html#simple-linear-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p><span class="math inline">\(\hat y_i = \alpha + \beta x_i\)</span></p>
-<p>Whether we have obtained a confidence interval for <span class="math inline">\(\beta\)</span> in a simple linear regression model via bootstrapping or theoretical results based on assumptions, the interpretation of the interval is the same. As we have seen,</p>
+<p>We will now interpret confidence intervals of model parameters for the purposes of statistical inference.</p>
+<div id="simple-linear-regression-ey_i-alpha-beta-x_i" class="section level2 unnumbered hasAnchor">
+<h2>Simple Linear Regression: <span class="math inline">\(E(y_i) = \alpha + \beta x_i\)</span><a href="inference-using-confidence-intervals.html#simple-linear-regression-ey_i-alpha-beta-x_i" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<!-- Whether we have obtained a confidence interval for $\beta$  in a simple linear regression model via bootstrapping or theoretical results based on assumptions, the interpretation of the interval is the same.   -->
+<p>As we have seen,</p>
 <blockquote>
 <p>A confidence interval gives a range of plausible values for a population parameter.</p>
 </blockquote>
 <p>We can therefore use the confidence interval for <span class="math inline">\(\beta\)</span> to state a range of plausible values and, just as usefully, what values are <strong>not</strong> plausible. The most common values to compare the confidence interval of <span class="math inline">\(\beta\)</span> with is 0 (zero), since <span class="math inline">\(\beta = 0\)</span> says there is <em>no</em> (linear) relationship between the outcome variable (<span class="math inline">\(y\)</span>) and the explanatory variable (<span class="math inline">\(x\)</span>). Therefore, if 0 lies within the confidence interval for <span class="math inline">\(\beta\)</span> then there is insufficient evidence of a linear relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. However, if 0 does <strong>not</strong> lie within the confidence interval, then we conclude that <span class="math inline">\(\beta\)</span> is significantly different from zero and therefore that there is evidence of a linear relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>.</p>
 <p>Let's use the confidence interval based on theoretical results for slope parameter in the SLR model applied to the teacher evaluation scores with <code>age</code> as the the single explanatory variable and the instructors' evaluation <code>score</code>s as the outcome variable.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="inference-using-confidence-intervals.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(slr.model)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="inference-using-confidence-intervals.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(slr.model)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-16">Table 4: </span>Estimate summaries from the SLR Model of <code>score</code> on <code>age</code>.</caption>
+<caption><span id="tab:unnamed-chunk-12">Table 3: </span>Estimate summaries from the SLR Model of <code>score</code> on <code>age</code>.</caption>
 <thead>
 <tr class="header">
 <th align="left">term</th>
@@ -214,19 +209,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p><br></p>
 <strong>Based on the fitted SLR model, is there evidence that there is a statistically significant linear relationship between the age of the professors and their teaching evaluation score?</strong>
-<div id="radio_QZOZXQSKEU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_QZOZXQSKEU" value="answer"></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_QZOZXQSKEU" value=""></input> <span>No</span></label>
+<div id="radio_FSYKHPXBFV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_FSYKHPXBFV" value="answer"></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_FSYKHPXBFV" value=""></input> <span>No</span></label>
 </div>
 <p><br></p>
 </div>
-<div id="multiple-regression" class="section level2 unnumbered hasAnchor">
-<h2>Multiple Regression<a href="inference-using-confidence-intervals.html#multiple-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-..." class="section level2 unnumbered hasAnchor">
+<h2>Multiple Regression <span class="math inline">\(E(y_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + ...\)</span><a href="inference-using-confidence-intervals.html#multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-..." class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Consider, again, the fitted interaction model for <code>score</code> with <code>age</code> and <code>gender</code> as the two explanatory variables.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="inference-using-confidence-intervals.html#cb14-1" aria-hidden="true" tabindex="-1"></a>int.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">*</span> gender, <span class="at">data =</span> evals_multiple)</span>
-<span id="cb14-2"><a href="inference-using-confidence-intervals.html#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="inference-using-confidence-intervals.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(int.model)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="inference-using-confidence-intervals.html#cb6-1" aria-hidden="true" tabindex="-1"></a>int.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">*</span> gender, <span class="at">data =</span> evals_multiple)</span>
+<span id="cb6-2"><a href="inference-using-confidence-intervals.html#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="inference-using-confidence-intervals.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(int.model)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-18">Table 5: </span>Model 2 (Regression table with interaction effect included)</caption>
+<caption><span id="tab:unnamed-chunk-14">Table 4: </span>Model 2 (Regression table with interaction effect included)</caption>
 <thead>
 <tr class="header">
 <th align="left">term</th>
@@ -279,8 +274,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p><br></p>
 <strong>Based on the fitted interaction model, is there evidence that we should allow for different rates of change for male and female professors' teaching scores as they get older?</strong>
-<div id="radio_FNZNHEKCZA" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_FNZNHEKCZA" value="answer"></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_FNZNHEKCZA" value=""></input> <span>No</span></label>
+<div id="radio_UCFQTETBYT" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UCFQTETBYT" value="answer"></input> <span>Yes</span></label><label><input type="radio" autocomplete="off" name="radio_UCFQTETBYT" value=""></input> <span>No</span></label>
 </div>
 <p><br>
 <br></p>

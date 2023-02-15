@@ -1,7 +1,4 @@
 h1:confidence-intervals-for-regression-parameters Confidence Intervals for Regression Parameters
-h2:bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr Bootstrap Confidence Intervals for  in Simple Linear Regression (SLR)
-fig:modelslr SLR Model applied to Teaching Evaluation Data
-h2:confidence-intervals-for-the-parameters-in-multiple-regression Confidence Intervals for the parameters in multiple regression
 fig:model1 Model 1 (No interaction effect included)
 fig:model2 Model 2 (Interaction effect included)
 tab:echo Model 1 (Regression table with no interaction effect included)

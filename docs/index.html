@@ -29,7 +29,7 @@
   
   
 
-<link rel="next" href="model-parameter-selection.html"/>
+<link rel="next" href="confidence-intervals-for-regression-parameters.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -133,16 +133,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
-<ul>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a></li>
 <li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
 <ul>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression-ey_i-alpha-beta-x_i"><i class="fa fa-check"></i>Simple Linear Regression: <span class="math inline">\(E(y_i) = \alpha + \beta x_i\)</span></a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-..."><i class="fa fa-check"></i>Multiple Regression <span class="math inline">\(E(y_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + ...\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
 <li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
@@ -170,34 +165,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="introduction" class="section level1 unnumbered hasAnchor">
 <h1>Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In previous weeks we have seen many examples of calculating <em>sample statistics</em> such as means, percentiles, standard deviations and regression coefficients. These <em>sample statistics</em> are used as <em>point estimates</em> of <em>population parameters</em> which describe the <em>population</em> from which the <em>sample</em> of data was taken. That last sentence assumes you're familiar with concepts and terminology about sampling (e.g. from the <em>Statistical Inference</em> course in 1st Semester) so here is a summary of some key terms:</p>
-<ol style="list-style-type: decimal">
-<li><p><strong>Population</strong>: The population is a set of <span class="math inline">\(N\)</span> observations of interest.</p></li>
-<li><p><strong>Population parameter</strong>: A population parameter is a numerical summary value about the population. In most settings, this is a value that's unknown and you wish you knew it.</p></li>
-<li><p><strong>Census</strong>: An exhaustive enumeration/counting of all observations in the population in order to compute the population parameter's numerical value <em>exactly</em>.</p>
-<ul>
-<li>When <span class="math inline">\(N\)</span> is small, a census is feasible. However, when <span class="math inline">\(N\)</span> is large, a census can get very expensive, either in terms of time, energy, or money.</li>
-</ul></li>
-<li><p><strong>Sampling</strong>: Collecting a sample of size <span class="math inline">\(n\)</span> of observations from the population. Typically the sample size <span class="math inline">\(n\)</span> is much smaller than the population size <span class="math inline">\(N\)</span>, thereby making sampling a much cheaper procedure than a census.</p>
-<ul>
-<li>It is important to remember that the lowercase <span class="math inline">\(n\)</span> corresponds to the sample size and uppercase <span class="math inline">\(N\)</span> corresponds to the population size, thus <span class="math inline">\(n \leq N\)</span>.</li>
-</ul></li>
-<li><p><strong>Point estimates/sample statistics</strong>: A summary statistic based on the sample of size <span class="math inline">\(n\)</span> that <em>estimates</em> the unknown population parameter.</p></li>
-<li><p><strong>Representative sampling</strong>: A sample is said be a <em>representative sample</em> if it "looks like the population". In other words, the sample's characteristics are a good representation of the population's characteristics.</p></li>
-<li><p><strong>Generalizability</strong>: We say a sample is <em>generalizable</em> if any results based on the sample can generalize to the population.</p></li>
-<li><p><strong>Bias</strong>: In a statistical sense, we say <em>bias</em> occurs if certain observations in a population have a higher chance of being sampled than others. We say a sampling procedure is <em>unbiased</em> if every observation in a population had an equal chance of being sampled.</p></li>
-<li><p><strong>Random sampling</strong>: We say a sampling procedure is <em>random</em> if we sample randomly from the population in an unbiased fashion.</p></li>
-</ol>
+<p>In this lab we construct confidence intervals for the parameters in simple and multiple linear regression models. We consider confidence intervals based on theoretical results when standard assumptions hold. We will also consider how to use confidence intervals for variable selection and finish by considering a model selection strategy based on objective measures for model comparisons.</p>
 <hr />
 <p>Now that you are familiar with RMarkdown, you are encouraged to collate your work in this tutorial in a RMarkdown file. Create a <code>.Rmd</code> file to load the following packages into R:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb1-4"><a href="index.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(moderndive)</span>
-<span id="cb1-5"><a href="index.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(infer)</span></code></pre></div>
-<p><strong>Note</strong>: Additional information and examples can be found in <a href="https://moderndive.com/9-confidence-intervals.html">Chapter 9</a> of <a href="https://moderndive.com/index.html">An Introduction to Statistical and Data Science via R</a>.</p>
-<p><br>
-<br></p>
+<span id="cb1-5"><a href="index.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#library(infer)</span></span></code></pre></div>
 
 </div>
 <script>
@@ -377,7 +352,7 @@ window.onload = function() {
         </div>
       </div>
 
-<a href="model-parameter-selection.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="confidence-intervals-for-regression-parameters.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

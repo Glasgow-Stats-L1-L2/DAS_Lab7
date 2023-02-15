@@ -28,7 +28,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="model-parameter-selection.html"/>
+<link rel="prev" href="index.html"/>
 <link rel="next" href="inference-using-confidence-intervals.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -133,16 +133,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="" data-path="model-parameter-selection.html"><a href="model-parameter-selection.html"><i class="fa fa-check"></i>Model Parameter Selection</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a>
-<ul>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr"><i class="fa fa-check"></i>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)</a></li>
-<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression"><i class="fa fa-check"></i>Confidence Intervals for the parameters in multiple regression</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="confidence-intervals-for-regression-parameters.html"><a href="confidence-intervals-for-regression-parameters.html"><i class="fa fa-check"></i>Confidence Intervals for Regression Parameters</a></li>
 <li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html"><i class="fa fa-check"></i>Inference using Confidence Intervals</a>
 <ul>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression"><i class="fa fa-check"></i>Simple Linear Regression</a></li>
-<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression"><i class="fa fa-check"></i>Multiple Regression</a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#simple-linear-regression-ey_i-alpha-beta-x_i"><i class="fa fa-check"></i>Simple Linear Regression: <span class="math inline">\(E(y_i) = \alpha + \beta x_i\)</span></a></li>
+<li class="chapter" data-level="" data-path="inference-using-confidence-intervals.html"><a href="inference-using-confidence-intervals.html#multiple-regression-ey_i-beta_0-beta_1-x_1i-beta_2-x_2i-..."><i class="fa fa-check"></i>Multiple Regression <span class="math inline">\(E(y_i) = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + ...\)</span></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="variable-selection-using-confidence-intervals.html"><a href="variable-selection-using-confidence-intervals.html"><i class="fa fa-check"></i>Variable selection using confidence intervals</a></li>
 <li class="chapter" data-level="" data-path="model-comparisons-using-objective-criteria.html"><a href="model-comparisons-using-objective-criteria.html"><i class="fa fa-check"></i>Model comparisons using objective criteria</a></li>
@@ -167,64 +162,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="confidence-intervals-for-regression-parameters" class="section level1 unnumbered hasAnchor">
 <h1>Confidence Intervals for Regression Parameters<a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-regression-parameters" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr" class="section level2 unnumbered hasAnchor">
-<h2>Bootstrap Confidence Intervals for <span class="math inline">\(\beta\)</span> in Simple Linear Regression (SLR)<a href="confidence-intervals-for-regression-parameters.html#bootstrap-confidence-intervals-for-beta-in-simple-linear-regression-slr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Just as we did for Scenarios 1-4 in Table 1, we can use the <code>infer</code> package to repeatedly sample from a dataset to estimate the sampling distribution and standard error of the estimates of the intercept (<span class="math inline">\(\hat \alpha\)</span>) and the covariate's parameter (<span class="math inline">\(\hat \beta\)</span>) in the simple linear regression model <span class="math inline">\(\hat y_i = \hat \alpha + \hat \beta x_i\)</span>. These sampling distributions enable us to directly find bootstrap confidence intervals for the model parameters. Usually, interest lies in <span class="math inline">\(\beta\)</span> and so that will be our focus here.</p>
-<p>To illustrate this, let's return to the teaching evaluations data that we analyzed last week and start with the SLR model with <code>age</code> as the the single explanatory variable and the instructors' evaluation <code>score</code>s as the outcome variable. This data and the fitted model are shown here.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="confidence-intervals-for-regression-parameters.html#cb2-1" aria-hidden="true" tabindex="-1"></a>slr.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score<span class="sc">~</span>age, <span class="at">data=</span>evals)</span>
-<span id="cb2-2"><a href="confidence-intervals-for-regression-parameters.html#cb2-2" aria-hidden="true" tabindex="-1"></a>coeff <span class="ot">&lt;-</span> slr.model <span class="sc">%&gt;%</span> </span>
-<span id="cb2-3"><a href="confidence-intervals-for-regression-parameters.html#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>() </span>
-<span id="cb2-4"><a href="confidence-intervals-for-regression-parameters.html#cb2-4" aria-hidden="true" tabindex="-1"></a>coeff</span></code></pre></div>
-<pre><code> (Intercept)          age 
- 4.461932354 -0.005938225 </code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="confidence-intervals-for-regression-parameters.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(evals, <span class="fu">aes</span>(<span class="at">x =</span> age, <span class="at">y =</span> score)) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="confidence-intervals-for-regression-parameters.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>() <span class="sc">+</span></span>
-<span id="cb4-3"><a href="confidence-intervals-for-regression-parameters.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Age&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Teaching Score&quot;</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="confidence-intervals-for-regression-parameters.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:modelslr"></span>
-<img src="main_files/figure-html/modelslr-1.png" alt="SLR Model applied to Teaching Evaluation Data" width="672" />
-<p class="caption">
-Figure 1: SLR Model applied to Teaching Evaluation Data
-</p>
-</div>
-<p>The point estimate of the slope parameter here is <span class="math inline">\(\hat \beta=\)</span> -0.006. The following code estimates the sampling distribution of <span class="math inline">\(\hat \beta\)</span> via the bootstrap method.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="confidence-intervals-for-regression-parameters.html#cb5-1" aria-hidden="true" tabindex="-1"></a>bootstrap_beta_distn <span class="ot">&lt;-</span> evals <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="confidence-intervals-for-regression-parameters.html#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(score <span class="sc">~</span> age) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="confidence-intervals-for-regression-parameters.html#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">1000</span>, <span class="at">type =</span> <span class="st">&quot;bootstrap&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="confidence-intervals-for-regression-parameters.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> <span class="st">&quot;slope&quot;</span>)</span>
-<span id="cb5-5"><a href="confidence-intervals-for-regression-parameters.html#cb5-5" aria-hidden="true" tabindex="-1"></a>bootstrap_beta_distn <span class="sc">%&gt;%</span> <span class="fu">visualize</span>()</span></code></pre></div>
-<p><img src="main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>Now we can use the <code>get_ci()</code> function to calculate a 95% confidence interval and a 99% confidence interval. We can do this either using the percentiles of the bootstrap distribution or using an estimate of the standard error from the bootstrap distribution. Remember that both these CIs denote a range of plausible values for the unknown true population slope parameter regressing teaching <code>score</code> on <code>age</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="confidence-intervals-for-regression-parameters.html#cb6-1" aria-hidden="true" tabindex="-1"></a>percentile_beta_ci <span class="ot">&lt;-</span> bootstrap_beta_distn <span class="sc">%&gt;%</span> </span>
-<span id="cb6-2"><a href="confidence-intervals-for-regression-parameters.html#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.95</span>, <span class="at">type =</span> <span class="st">&quot;percentile&quot;</span>)</span>
-<span id="cb6-3"><a href="confidence-intervals-for-regression-parameters.html#cb6-3" aria-hidden="true" tabindex="-1"></a>percentile_beta_ci</span></code></pre></div>
-<pre><code># A tibble: 1 x 2
-  lower_ci  upper_ci
-     &lt;dbl&gt;     &lt;dbl&gt;
-1  -0.0107 -0.000972</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="confidence-intervals-for-regression-parameters.html#cb8-1" aria-hidden="true" tabindex="-1"></a>se_beta_ci <span class="ot">&lt;-</span> bootstrap_beta_distn <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="confidence-intervals-for-regression-parameters.html#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.99</span>, <span class="at">type =</span> <span class="st">&quot;se&quot;</span>, <span class="at">point_estimate =</span> coeff[<span class="dv">2</span>])</span>
-<span id="cb8-3"><a href="confidence-intervals-for-regression-parameters.html#cb8-3" aria-hidden="true" tabindex="-1"></a>se_beta_ci</span></code></pre></div>
-<pre><code># A tibble: 1 x 2
-  lower_ci upper_ci
-     &lt;dbl&gt;    &lt;dbl&gt;
-1  -0.0124 0.000551</code></pre>
-<p>Using the 2.5% and 97.5% percentiles of the simulated bootstrap sampling distribution the 95% confidence interval is (-0.011,-0.001).</p>
-<p><br></p>
-<strong>What is the 99% Confidence Interval for the age parameter by the standard effor approach?</strong>
-<div id="radio_WRAXGGQWQU" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_WRAXGGQWQU" value=""></input> <span>(-0.012, -0.001)</span></label><label><input type="radio" autocomplete="off" name="radio_WRAXGGQWQU" value=""></input> <span>(-0.012, -0.011)</span></label><label><input type="radio" autocomplete="off" name="radio_WRAXGGQWQU" value=""></input> <span>(-0.011, 0.001)</span></label><label><input type="radio" autocomplete="off" name="radio_WRAXGGQWQU" value="answer"></input> <span>(-0.012, 0.001)</span></label>
-</div>
-<p><br></p>
-<strong>Comparing the two different confidence intervals (95% and 99%) produced by the <code>percentile</code> and the <code>se</code> methods, respectively, we conclude:</strong>
-<div id="radio_AQFHIZFKXT" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_AQFHIZFKXT" value="answer"></input> <span>The two confidence intervals are similar since the bootstrap sampling distribution was close to symmetric</span></label><label><input type="radio" autocomplete="off" name="radio_AQFHIZFKXT" value=""></input> <span>The two confidence intervals are quite different despite the bootstrap sampling distribution being close to symmetric</span></label><label><input type="radio" autocomplete="off" name="radio_AQFHIZFKXT" value=""></input> <span>The two confidence intervals are quite different because the bootstrap sampling distribution was close to symmetric</span></label><label><input type="radio" autocomplete="off" name="radio_AQFHIZFKXT" value=""></input> <span>The two confidence intervals are similar despite the bootstrap sampling distribution being close to symmetric</span></label>
-</div>
-<p><br></p>
-</div>
-<div id="confidence-intervals-for-the-parameters-in-multiple-regression" class="section level2 unnumbered hasAnchor">
-<h2>Confidence Intervals for the parameters in multiple regression<a href="confidence-intervals-for-regression-parameters.html#confidence-intervals-for-the-parameters-in-multiple-regression" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Let's continue with the teaching evaluations data by fitting the multiple regression with one numerical and one categorical predictor. In this model:</p>
+<!-- ## Bootstrap Confidence Intervals for $\beta$ in Simple Linear Regression (SLR) {-} -->
+<!-- Just as we did for Scenarios 1-4 in Table 1, we can use the `infer` package to repeatedly sample from a dataset to estimate the sampling distribution and standard error of the estimates of the intercept ($\hat \alpha$) and the covariate's parameter ($\hat \beta$) in the simple linear regression model $\hat y_i = \hat \alpha + \hat \beta x_i$. These sampling distributions enable us to directly find bootstrap confidence intervals for the model parameters.  Usually, interest lies in $\beta$ and so that will be our focus here. -->
+<!-- To illustrate this, let's return to the teaching evaluations data that we analyzed last week and start with the SLR model with `age` as the the single explanatory variable and the instructors' evaluation `score`s as the outcome variable.  This data and the fitted model are shown here. -->
+<!-- BOOTSTRAP MATERIAL REMOVED -->
+<!-- ## Confidence Intervals for the parameters in multiple regression {-} -->
+<p>Let's continue with the teaching evaluations data that we first saw in Lab 4 by fitting the multiple regression with one numerical and one categorical predictor. In this model:</p>
 <ul>
 <li><span class="math inline">\(y\)</span>: outcome variable of instructor evaluation <code>score</code></li>
 <li>predictor variables
@@ -233,8 +176,8 @@ Figure 1: SLR Model applied to Teaching Evaluation Data
 <li><span class="math inline">\(x_2\)</span>: categorical explanatory/predictor variable of <code>gender</code></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="confidence-intervals-for-regression-parameters.html#cb10-1" aria-hidden="true" tabindex="-1"></a>evals_multiple <span class="ot">&lt;-</span> evals <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="confidence-intervals-for-regression-parameters.html#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(score, gender, age)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="confidence-intervals-for-regression-parameters.html#cb2-1" aria-hidden="true" tabindex="-1"></a>evals_multiple <span class="ot">&lt;-</span> evals <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="confidence-intervals-for-regression-parameters.html#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(score, gender, age)</span></code></pre></div>
 <p>First, recall that we had two competing potential models to explain professors' teaching evaluation scores in Lab 4:</p>
 <ol style="list-style-type: decimal">
 <li>Model 1: Parallel lines model (no interaction term) - both male and female professors have the same slope describing the associated effect of age on teaching score</li>
@@ -244,22 +187,22 @@ Figure 1: SLR Model applied to Teaching Evaluation Data
 <div class="figure"><span style="display:block;" id="fig:model1"></span>
 <img src="main_files/figure-html/model1-1.png" alt="Model 1 (No interaction effect included)" width="672" />
 <p class="caption">
-Figure 2: Model 1 (No interaction effect included)
+Figure 1: Model 1 (No interaction effect included)
 </p>
 </div>
 <div class="figure"><span style="display:block;" id="fig:model2"></span>
 <img src="main_files/figure-html/model2-1.png" alt="Model 2 (Interaction effect included)" width="672" />
 <p class="caption">
-Figure 3: Model 2 (Interaction effect included)
+Figure 2: Model 2 (Interaction effect included)
 </p>
 </div>
 <p>Let's also recall the regression models we fit. First, the regression with no
 interaction effect: note the use of <code>+</code> in the formula.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="confidence-intervals-for-regression-parameters.html#cb11-1" aria-hidden="true" tabindex="-1"></a>par.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">+</span> gender, <span class="at">data =</span> evals_multiple)</span>
-<span id="cb11-2"><a href="confidence-intervals-for-regression-parameters.html#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="confidence-intervals-for-regression-parameters.html#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(par.model)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="confidence-intervals-for-regression-parameters.html#cb3-1" aria-hidden="true" tabindex="-1"></a>par.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">+</span> gender, <span class="at">data =</span> evals_multiple)</span>
+<span id="cb3-2"><a href="confidence-intervals-for-regression-parameters.html#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="confidence-intervals-for-regression-parameters.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(par.model)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-11">Table 2: </span>Model 1 (Regression table with no interaction effect included)</caption>
+<caption><span id="tab:unnamed-chunk-7">Table 1: </span>Model 1 (Regression table with no interaction effect included)</caption>
 <thead>
 <tr class="header">
 <th align="left">term</th>
@@ -302,11 +245,11 @@ interaction effect: note the use of <code>+</code> in the formula.</p>
 </tbody>
 </table>
 <p>Second, the regression with an interaction effect: note the use of <code>*</code> in the formula.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="confidence-intervals-for-regression-parameters.html#cb12-1" aria-hidden="true" tabindex="-1"></a>int.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">*</span> gender, <span class="at">data =</span> evals_multiple)</span>
-<span id="cb12-2"><a href="confidence-intervals-for-regression-parameters.html#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="confidence-intervals-for-regression-parameters.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(int.model)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="confidence-intervals-for-regression-parameters.html#cb4-1" aria-hidden="true" tabindex="-1"></a>int.model <span class="ot">&lt;-</span> <span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">*</span> gender, <span class="at">data =</span> evals_multiple)</span>
+<span id="cb4-2"><a href="confidence-intervals-for-regression-parameters.html#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="confidence-intervals-for-regression-parameters.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">get_regression_table</span>(int.model)</span></code></pre></div>
 <table>
-<caption><span id="tab:unnamed-chunk-13">Table 3: </span>Model 2 (Regression table with interaction effect included)</caption>
+<caption><span id="tab:unnamed-chunk-9">Table 2: </span>Model 2 (Regression table with interaction effect included)</caption>
 <thead>
 <tr class="header">
 <th align="left">term</th>
@@ -364,21 +307,21 @@ interaction effect: note the use of <code>+</code> in the formula.</p>
 <li><strong>p_value</strong>: the <span class="math inline">\(p\)</span> value associated with the test statistic under the null hypothesis</li>
 <li><strong>lower_ci</strong> and <strong>upper_ci</strong>: the lower and upper bounds of the 95% confidence interval for the population parameter</li>
 </ul>
-<p>These values are calculated using the theoretical results based on the standard assumptions that you will have seen in <em>Regression Modelling</em> in first semester. Theses values are <strong>not</strong> based on bootstrapping techniques since these become much harder to implement when working with multiple variables and its beyond the scope of this course.</p>
+<p>These values are calculated using the theoretical results based on the standard assumptions that you will have seen in <em>Regression Modelling</em> in first semester.<br />
+<!-- Theses values are **not** based on bootstrapping techniques since these become much harder to implement when working with multiple variables and its beyond the scope of this course. --></p>
 <p><br></p>
 <strong>What is the 95% Confidence Interval for the difference, on average, between the (linear) effect age has on the evaluation scores of male professors and the (linear) effect age has on the evaluation scores of female professors?</strong>
-<div id="radio_IVPZNAWCGB" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_IVPZNAWCGB" value=""></input> <span>(0.087, 0.294)</span></label><label><input type="radio" autocomplete="off" name="radio_IVPZNAWCGB" value=""></input> <span>(-0.026, -0.009)</span></label><label><input type="radio" autocomplete="off" name="radio_IVPZNAWCGB" value=""></input> <span>(-0.968, 0.076)</span></label><label><input type="radio" autocomplete="off" name="radio_IVPZNAWCGB" value="answer"></input> <span>(0.003, 0.024)</span></label>
+<div id="radio_XCOYCBIALC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_XCOYCBIALC" value="answer"></input> <span>(0.003, 0.024)</span></label><label><input type="radio" autocomplete="off" name="radio_XCOYCBIALC" value=""></input> <span>(0.087, 0.294)</span></label><label><input type="radio" autocomplete="off" name="radio_XCOYCBIALC" value=""></input> <span>(-0.026, -0.009)</span></label><label><input type="radio" autocomplete="off" name="radio_XCOYCBIALC" value=""></input> <span>(-0.968, 0.076)</span></label>
 </div>
 <p><br></p>
 <strong>By just considering the simpler parallel lines model, what can we say about the the difference, on average, between the evaluation scores of male and female professors when age is taken into account?</strong>
-<div id="radio_LBBZRKFTFQ" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_LBBZRKFTFQ" value=""></input> <span>It's highly likely that, on average, male professors' scores are between 0.003 and 0.014 units lower than females professors' scores when age is taken into account</span></label><label><input type="radio" autocomplete="off" name="radio_LBBZRKFTFQ" value=""></input> <span>It's highly likely that, on average, male professors' scores are between 0.003 and 0.014 units higher than females professors' scores when age is taken into account</span></label><label><input type="radio" autocomplete="off" name="radio_LBBZRKFTFQ" value=""></input> <span>It's highly likely that, on average, male professors' scores are between 0.1 and 0.3 units lower than females professors' scores when age is taken into account</span></label><label><input type="radio" autocomplete="off" name="radio_LBBZRKFTFQ" value="answer"></input> <span>It's highly likely that, on average, male professors' scores are between 0.1 and 0.3 units higher than females professors' scores when age is taken into account</span></label>
+<div id="radio_JAOOTVABCQ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_JAOOTVABCQ" value=""></input> <span>It's highly likely that, on average, male professors' scores are between 0.1 and 0.3 units lower than females professors' scores when age is taken into account</span></label><label><input type="radio" autocomplete="off" name="radio_JAOOTVABCQ" value="answer"></input> <span>It's highly likely that, on average, male professors' scores are between 0.1 and 0.3 units higher than females professors' scores when age is taken into account</span></label><label><input type="radio" autocomplete="off" name="radio_JAOOTVABCQ" value=""></input> <span>It's highly likely that, on average, male professors' scores are between 0.003 and 0.014 units lower than females professors' scores when age is taken into account</span></label><label><input type="radio" autocomplete="off" name="radio_JAOOTVABCQ" value=""></input> <span>It's highly likely that, on average, male professors' scores are between 0.003 and 0.014 units higher than females professors' scores when age is taken into account</span></label>
 </div>
 <p><br>
 <br></p>
 
-</div>
 </div>
 <script>
 
@@ -556,7 +499,7 @@ window.onload = function() {
           </div>
         </div>
       </div>
-<a href="model-parameter-selection.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="inference-using-confidence-intervals.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

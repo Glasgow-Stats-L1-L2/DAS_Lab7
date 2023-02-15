@@ -46,30 +46,9 @@ knitr::opts_chunk$set(comment = NA, warning = FALSE, message = FALSE)
 
 # Introduction {-}
 
-In previous weeks we have seen many examples of calculating *sample statistics* such as means, percentiles, standard deviations and regression coefficients.  These *sample statistics* are used as *point estimates* of *population parameters* which describe the *population* from which the *sample* of data was taken.  That last sentence assumes you're familiar with concepts and terminology about sampling (e.g. from the *Statistical Inference* course in 1st Semester) so here is a summary of some key terms:
-
-1. **Population**: The population is a set of $N$ observations of interest.
-
-2. **Population parameter**: A population parameter is a numerical summary value about the population. In most settings, this is a value that's unknown and you wish you knew it.
-
-3. **Census**: An exhaustive enumeration/counting of all observations in the population in order to compute the population parameter's numerical value *exactly*.
-    + When $N$ is small, a census is feasible. However, when $N$ is large, a census can get very expensive, either in terms of time, energy, or money. 
-
-4. **Sampling**: Collecting a sample of size $n$ of observations from the population. Typically the sample size $n$ is much smaller than the population size $N$, thereby making sampling a much cheaper procedure than a census. 
-    + It is important to remember that the lowercase $n$ corresponds to the sample size and uppercase $N$ corresponds to the population size, thus  $n \leq N$.
-
-5. **Point estimates/sample statistics**: A summary statistic based on the sample of size $n$ that *estimates* the unknown population parameter.
-
-6. **Representative sampling**: A sample is said be a *representative sample* if it "looks like the population". In other words, the sample's characteristics are a good representation of the population's characteristics.
-
-7. **Generalizability**: We say a sample is *generalizable* if any results based on the sample can generalize to the population.
-
-8. **Bias**: In a statistical sense, we say *bias* occurs if certain observations in a population have a higher chance of being sampled than others. We say a sampling procedure is *unbiased* if every observation in a population had an equal chance of being sampled. 
-
-9. **Random sampling**: We say a sampling procedure is *random* if we sample randomly from the population in an unbiased fashion.
+In this lab we construct confidence intervals for the parameters in simple and multiple linear regression models.  We consider confidence intervals based on theoretical results when standard assumptions hold.  We will also consider how to use confidence intervals for variable selection and finish by considering a model selection strategy based on objective measures for model comparisons.
 
 ***
-
 Now that you are familiar with RMarkdown, you are encouraged to collate your work in this tutorial in a RMarkdown file. Create a `.Rmd` file to load the following packages into R:
 
 ```{r message=FALSE, warning=FALSE}
@@ -77,13 +56,9 @@ library(dplyr)
 library(ggplot2)
 library(janitor)
 library(moderndive)
-library(infer)
+#library(infer)
 ```
 
-**Note**: Additional information and examples can be found in [Chapter 9](https://moderndive.com/9-confidence-intervals.html) of [An Introduction to Statistical and Data Science via R](https://moderndive.com/index.html).
-
-<br>
-<br>
 
 
 
