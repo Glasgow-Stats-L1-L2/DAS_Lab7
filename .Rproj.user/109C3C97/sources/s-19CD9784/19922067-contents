@@ -40,9 +40,9 @@ library(broom)
 model.comp.values.slr.age <- glance(lm(score ~ age, data = evals))
 kable(model.comp.values.slr.age,digits = 2)
 model.comp.values.slr.bty_avg <- glance(lm(score ~ bty_avg, data = evals))
-model.comp.values.slr.bty_avg
+kable(model.comp.values.slr.bty_avg,digits = 2)
 model.comp.values.mlr <- glance(lm(score ~ age + bty_avg, data = evals))
-model.comp.values.mlr
+kable(model.comp.values.mlr,digits = 2)
 ```
 
 Note that $R_{adj}^2$, $AIC$ and $BIC$ are contained in columns 3, 9 and 10 respectively.  To access just these values and combine them in a single table we use:

@@ -250,33 +250,115 @@ A popular data analysis strategy which we shall adopt is to calculate <span clas
 </tbody>
 </table>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="model-comparisons-using-objective-criteria.html#cb9-1" aria-hidden="true" tabindex="-1"></a>model.comp.values.slr.bty_avg <span class="ot">&lt;-</span> <span class="fu">glance</span>(<span class="fu">lm</span>(score <span class="sc">~</span> bty_avg, <span class="at">data =</span> evals))</span>
-<span id="cb9-2"><a href="model-comparisons-using-objective-criteria.html#cb9-2" aria-hidden="true" tabindex="-1"></a>model.comp.values.slr.bty_avg</span></code></pre></div>
-<pre><code># A tibble: 1 x 12
-  r.squ~1 adj.r~2 sigma stati~3 p.value    df logLik   AIC   BIC devia~4 df.re~5
-    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;
-1  0.0350  0.0329 0.535    16.7 5.08e-5     1  -366.  738.  751.    132.     461
-# ... with 1 more variable: nobs &lt;int&gt;, and abbreviated variable names
-#   1: r.squared, 2: adj.r.squared, 3: statistic, 4: deviance, 5: df.residual
-# i Use `colnames()` to see all variable names</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="model-comparisons-using-objective-criteria.html#cb11-1" aria-hidden="true" tabindex="-1"></a>model.comp.values.mlr <span class="ot">&lt;-</span> <span class="fu">glance</span>(<span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">+</span> bty_avg, <span class="at">data =</span> evals))</span>
-<span id="cb11-2"><a href="model-comparisons-using-objective-criteria.html#cb11-2" aria-hidden="true" tabindex="-1"></a>model.comp.values.mlr</span></code></pre></div>
-<pre><code># A tibble: 1 x 12
-  r.squ~1 adj.r~2 sigma stati~3 p.value    df logLik   AIC   BIC devia~4 df.re~5
-    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;int&gt;
-1  0.0378  0.0336 0.535    9.03 1.42e-4     2  -366.  739.  756.    131.     460
-# ... with 1 more variable: nobs &lt;int&gt;, and abbreviated variable names
-#   1: r.squared, 2: adj.r.squared, 3: statistic, 4: deviance, 5: df.residual
-# i Use `colnames()` to see all variable names</code></pre>
+<span id="cb9-2"><a href="model-comparisons-using-objective-criteria.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(model.comp.values.slr.bty_avg,<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="14%" />
+<col width="6%" />
+<col width="10%" />
+<col width="8%" />
+<col width="3%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="12%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">sigma</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">df</th>
+<th align="right">logLik</th>
+<th align="right">AIC</th>
+<th align="right">BIC</th>
+<th align="right">deviance</th>
+<th align="right">df.residual</th>
+<th align="right">nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.04</td>
+<td align="right">0.03</td>
+<td align="right">0.53</td>
+<td align="right">16.73</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">-366.22</td>
+<td align="right">738.44</td>
+<td align="right">750.86</td>
+<td align="right">131.87</td>
+<td align="right">461</td>
+<td align="right">463</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="model-comparisons-using-objective-criteria.html#cb10-1" aria-hidden="true" tabindex="-1"></a>model.comp.values.mlr <span class="ot">&lt;-</span> <span class="fu">glance</span>(<span class="fu">lm</span>(score <span class="sc">~</span> age <span class="sc">+</span> bty_avg, <span class="at">data =</span> evals))</span>
+<span id="cb10-2"><a href="model-comparisons-using-objective-criteria.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(model.comp.values.mlr,<span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="14%" />
+<col width="6%" />
+<col width="10%" />
+<col width="8%" />
+<col width="3%" />
+<col width="8%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="12%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">r.squared</th>
+<th align="right">adj.r.squared</th>
+<th align="right">sigma</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+<th align="right">df</th>
+<th align="right">logLik</th>
+<th align="right">AIC</th>
+<th align="right">BIC</th>
+<th align="right">deviance</th>
+<th align="right">df.residual</th>
+<th align="right">nobs</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.04</td>
+<td align="right">0.03</td>
+<td align="right">0.53</td>
+<td align="right">9.03</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">-365.56</td>
+<td align="right">739.12</td>
+<td align="right">755.67</td>
+<td align="right">131.49</td>
+<td align="right">460</td>
+<td align="right">463</td>
+</tr>
+</tbody>
+</table>
 <p>Note that <span class="math inline">\(R_{adj}^2\)</span>, <span class="math inline">\(AIC\)</span> and <span class="math inline">\(BIC\)</span> are contained in columns 3, 9 and 10 respectively. To access just these values and combine them in a single table we use:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="model-comparisons-using-objective-criteria.html#cb13-1" aria-hidden="true" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;SLR(age)&#39;</span>,<span class="st">&#39;SLR(bty_avg)&#39;</span>,<span class="st">&#39;MLR&#39;</span>) </span>
-<span id="cb13-2"><a href="model-comparisons-using-objective-criteria.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(model.comp.values.slr.age, model.comp.values.slr.bty_avg, </span>
-<span id="cb13-3"><a href="model-comparisons-using-objective-criteria.html#cb13-3" aria-hidden="true" tabindex="-1"></a>          model.comp.values.mlr,<span class="at">.id=</span><span class="st">&quot;Model&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="model-comparisons-using-objective-criteria.html#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Model,adj.r.squared,AIC,BIC) <span class="sc">%&gt;%</span></span>
-<span id="cb13-5"><a href="model-comparisons-using-objective-criteria.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Model=</span>Models) <span class="sc">%&gt;%</span>  </span>
-<span id="cb13-6"><a href="model-comparisons-using-objective-criteria.html#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
-<span id="cb13-7"><a href="model-comparisons-using-objective-criteria.html#cb13-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb13-8"><a href="model-comparisons-using-objective-criteria.html#cb13-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">caption =</span> <span class="st">&quot;Model comparison values for different models&quot;</span> </span>
-<span id="cb13-9"><a href="model-comparisons-using-objective-criteria.html#cb13-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="model-comparisons-using-objective-criteria.html#cb11-1" aria-hidden="true" tabindex="-1"></a>Models <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;SLR(age)&#39;</span>,<span class="st">&#39;SLR(bty_avg)&#39;</span>,<span class="st">&#39;MLR&#39;</span>) </span>
+<span id="cb11-2"><a href="model-comparisons-using-objective-criteria.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(model.comp.values.slr.age, model.comp.values.slr.bty_avg, </span>
+<span id="cb11-3"><a href="model-comparisons-using-objective-criteria.html#cb11-3" aria-hidden="true" tabindex="-1"></a>          model.comp.values.mlr,<span class="at">.id=</span><span class="st">&quot;Model&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="model-comparisons-using-objective-criteria.html#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Model,adj.r.squared,AIC,BIC) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="model-comparisons-using-objective-criteria.html#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Model=</span>Models) <span class="sc">%&gt;%</span>  </span>
+<span id="cb11-6"><a href="model-comparisons-using-objective-criteria.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(</span>
+<span id="cb11-7"><a href="model-comparisons-using-objective-criteria.html#cb11-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb11-8"><a href="model-comparisons-using-objective-criteria.html#cb11-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">caption =</span> <span class="st">&quot;Model comparison values for different models&quot;</span> </span>
+<span id="cb11-9"><a href="model-comparisons-using-objective-criteria.html#cb11-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
 <table>
 <caption><span id="tab:unnamed-chunk-20">Table 6: </span>Model comparison values for different models</caption>
 <thead>
@@ -310,8 +392,8 @@ A popular data analysis strategy which we shall adopt is to calculate <span clas
 </table>
 <p><br></p>
 <strong>Based on these values and the model comparison strategy outlined above, which of these three models would you favour?</strong>
-<div id="radio_ICWQJPQBXF" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ICWQJPQBXF" value=""></input> <span>The MLR model with both <code>age</code> and <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_ICWQJPQBXF" value=""></input> <span>Inconclusive</span></label><label><input type="radio" autocomplete="off" name="radio_ICWQJPQBXF" value="answer"></input> <span>The SLR model with <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_ICWQJPQBXF" value=""></input> <span>The SLR model with <code>age</code></span></label>
+<div id="radio_NEFXJDVMXV" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NEFXJDVMXV" value=""></input> <span>The MLR model with both <code>age</code> and <code>bty_avg</code></span></label><label><input type="radio" autocomplete="off" name="radio_NEFXJDVMXV" value=""></input> <span>Inconclusive</span></label><label><input type="radio" autocomplete="off" name="radio_NEFXJDVMXV" value=""></input> <span>The SLR model with <code>age</code></span></label><label><input type="radio" autocomplete="off" name="radio_NEFXJDVMXV" value="answer"></input> <span>The SLR model with <code>bty_avg</code></span></label>
 </div>
 <p><br>
 <br></p>
